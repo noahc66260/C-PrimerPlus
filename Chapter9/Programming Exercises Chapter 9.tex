@@ -1,0 +1,222 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\qquad \textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{\\ \noindent\phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+	{\end{minipage}}
+\newenvironment{cpartContinued}[2][\cwidth]
+	{\\ \noindent\phantom{\qquad}%
+		\phantom{\textbf{#2. }}\begin{minipage}[t]{#1}}
+	{\end{minipage}}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{9}
+
+\begin{document}
+
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Here is a header file:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				// golf.h -- for pe9-1.cpp \\
+				\\
+				const int Len = 40; \\
+				struct golf \\
+				\{ \\
+				\> 	char fullname[Len]; \\
+				\> 	int handicap; \\
+				\}; \\
+				\\
+				// non-interactive version: \\
+				// function sets golf structure to provided name, handicap \\
+				// using values passed as arguments to the function \\
+				void setgolf(golf & g, const char * name, int hc); \\
+				\\
+				// interactive version: \\
+				// function solicits name and handicap from user \\
+				// and sets the members of g to teh values entered \\
+				// returns 1 if name is entered, 0 if name is empty string \\
+				int setgolf(golf & g); \\
+				\\
+				// function resets handicap to new value \\
+				void handicap(golf & g, int hc); \\
+				\\
+				// function displays contents of golf structure \\
+				void showgolf(const golf & g);
+			\end{tabbing}
+		}
+		\phantom{\quad} \\
+		Note that \ttt{setgolf()} is overloaded. 
+		Using the first version of \ttt{setgolf()} would look like this:
+		\vspace{2ex} \\
+		\ttt{golf ann;} \\
+		\ttt{setgolf(ann, "Ann Birdfree", 24);}
+		%\vspace{2ex} \\
+	\end{cpart}
+	
+	\begin{cpartContinued}{1}
+		The function call provides the information that's stored in the 
+		\ttt{ann} structure.
+		Using the second version of \ttt{setgolf()} would look like
+		this: \\[2ex]
+		{\ttfamily
+			golf andy; \\
+			setgolf(andy);
+		} \\[2ex]
+		The function would prompt the user to enter the name and handicap
+		and store them in the \ttt{andy} structure.
+		This function could (but doesn't need to) use the first
+		version internally. \\[2ex]
+		Put together a multifile program based on this header.
+		One file, named \ttt{golf.cpp}, should provide suitable
+		function definitions to match the prototypes
+		in the header file.
+		A second file should contain \ttt{main()} and demonstrate all 
+		the features of the prototyped functions.
+		For example, a loop should solicit input for an array of golf
+		structures and terminate when teh array is full or the
+		user enters an empty string for the golfer's name.
+		The \ttt{main()} function should use only the prototyped 
+		functions to access the golf structures.
+	\end{cpartContinued} 
+	\\[2ex]
+
+	\begin{cpart}{2}
+		Redo Listing 9.8, replacing the character array with a
+		\ttt{string} object.
+		The program should no longer have to check wheter the input
+		string fits, and it can compare the input string to "" to 
+		check for an empty line.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{3}
+		Begin with the following structure declaration:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				struct chaff \\
+				\{ \\
+				\> 	char dross[20]; \\
+				\> 	int slag; \\
+				\};
+			\end{tabbing}
+		}
+		\phantom{\quad} \\
+		Write a program that uses placement \ttt{new} to place
+		an array of two such structures in a buffer.
+		Then assign values to the structure members (remembering to
+		use \ttt{strcpy()} for the \ttt{char} array) and use
+		a loop to display the contents.
+		Option 1 is to use a static array, like that in Listing 9.9,
+		for the buffer.
+		Option 2 is to use regular \ttt{new} to allocate the buffer.
+	\end{cpart}
+	\vfill
+	\newpage
+
+	\begin{cpart}{4}
+		Write a three-file program based on the following namespace:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+					namespace SALES \\
+					\{ \\
+					\> 	const int QUARTERS = 4; \\
+					\> 	struct Sales \\
+					\> 	\{
+					\> \>		double sales[QUARTERS]; \\
+					\> \>		double average; \\
+					\> \>		double max; \\
+					\> \>		double min; \\
+					\> 	\}; \\
+					\\
+					\> 	// copies the lessoer of 4 or n items from
+								the array ar \\
+					\> 	// to the sales member of s and computes 
+								and stores the \\
+					\> 	// average, maximum, and minimum values of the
+								entered items; \\
+					\> 	// remaining elements of sales, if any, set to 0 \\
+					\> 	void setSales(Sales & s, const double ar[], int n); \\
+					\\
+					\> 	// gathers sales for 4 quarters interactively,
+								stores them \\
+					\> 	// in the sales member of s and computes and
+								stores the \\
+					\> 	// average, maximum, and minimum values \\
+					\> 	void setSales(Sales & s); \\
+					\\
+					\> 	// display all information in structure s \\
+					\> 	void showSales(const Sales & s); \\
+					\}
+			\end{tabbing}
+		}
+		\phantom{\quad} \\
+		The first file should be a header file that contains the 
+		namespace.
+		The second file should be a source code file that extends the
+		namespace to provide definitions for the three prototyped 
+		functions.
+		The third file should declare two \ttt{Sales} objects.
+		It should use the interactive version of \ttt{setSales()}
+		to provide values for one structure and the non-interactive
+		version of \ttt{setSales()} to provide values for the second
+		structure.
+		It should display the contents of both structures by using
+		\ttt{showSales()}.
+	\end{cpart}
+	\vspace{2ex}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+
+
+{\ttfamily
+	\begin{tabbing}
+		\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+	\end{tabbing}
+}
+
+
+
+
+
+
+
+
+
+
+

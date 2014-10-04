@@ -1,0 +1,320 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 6: Branching Statements and Logical Operators \\
+	Review Questions} \normalsize \vspace{.5 cm}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+% Note 8.23.11: I am going to be more careful about how I write code. It is much more readable if I indent for ALL environments (even environments within environments).
+
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the following two code fragments for counting spaces and newlines:
+	\begin{verbatim}
+		// Version 1
+		while (cin.get(ch))      // quit on eof
+		{
+		      if(ch == ' ')
+		            spaces++;
+		      if (ch == '\n')
+		            newlines++;
+		}
+
+		// Version 2
+		while (cin.get(ch))      // quit on eof
+		{
+		      if(ch == ' ')
+		            spaces++;
+		      else if (ch == '\n')
+		            newlines++;
+		}
+	\end{verbatim}
+	What advantages, if any, does the second form have over the first?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The second code fragment is more efficient. The logical expressions in the two if statements of both code fragments are mutually exclusive. In the first code fragment, the second logical expression in the body of the while loop is evaluated even if the first evaluates to true, which is unnecessary. In the second code fragment, the second logical expression in the while loop is evaluated only if the first one is false. } 
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	In Listing 6.2, what is the effect of replacing \texttt{++ch} with \texttt{ch+1}?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape \verb+cout+ will print the character code rather than the actual character. Since \verb?++ch? is of type char, \verb+cout+ will print a character. However, the expression \verb?ch+1? is of type \verb+int+, so \verb+cout+ will print a number. In the expression \verb?ch+1?, the \verb?ch? variable is promoted to type \verb+int+. The answer remains in \verb+int+ form.} 
+\end{minipage} 
+\vfill
+\newpage
+
+
+\vfill
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Carefully consider the following program:
+	\begin{verbatim}
+	#include <iostream>
+	using namespace std;
+	int main()
+	{
+	      char ch;
+	      int ct1, ct2;
+	
+	      ct1 = ct2 = 0;
+	      while ((ch = cin.get()) != '$')
+	      {
+	            cout << ch;
+	            ct1++;
+	            if (ch = '$')
+	                  ct2++;
+	            cout << ch;
+	      }
+	      cout << "ct1 = " << ct1 << ", ct2 = " << ct2 << "\n";
+	      return 0;
+	}
+	\end{verbatim}
+	Suppose you provide the following input, where \verb+<Enter>+ represents pressing Enter:
+	\begin{verbatim}
+		Hi!<Enter>
+		Send $10 or $20 now! <Enter>
+	\end{verbatim}
+	What is the output? (Recall that input is buffered.)
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The output is the following:}
+	\begin{verbatim}
+		H$i$!$
+		$S$e$n$d$ $ct1 = 9, ct2 = 9
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Construct logical expressions to represent the following conditions:
+\end{minipage} \\[1ex]
+\phantom{1. }a. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{weight} is greater than or equal to 115 but less than 125 \\[1ex]
+	{\slshape See the following code:}	
+	\begin{verbatim}
+		(weight >= 115) && (weight < 125)
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{ch} is \texttt{q} or \texttt{Q} \\[1ex]
+	{\slshape See the following code:}
+	\begin{verbatim}
+		(ch == 'q') || (ch == 'Q')
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{x} is even but is not \texttt{26} \\[1ex]
+	{\slshape See the following code:}
+	\begin{verbatim}
+		(x % 2 == 0) && (x != 26)
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{x} is even but is not a multiple of \texttt{26} \\[1ex]
+	{\slshape See the following code:}
+	\begin{verbatim}
+		(x % 2 == 0) && (x % 26 != 0)
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{donation} is in the range 1,000-2,000 or \texttt{guest} is \texttt{1} \\[1ex]
+	{\slshape See the following code:}
+	\begin{verbatim}
+		(donation <= 2000 && donation >= 1000) || (guest == 1)
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f. 
+\begin{minipage}[t]{11.5 cm}
+	\texttt{ch} is a lowercase letter or an upper case letter. (Assume that lowercase letters are coded sequentially and that uppercase letters are coded sequentially but that there is a gap in the code between uppercase and lowercase.) \\[1ex]
+	{\slshape See the following code:}
+	\begin{verbatim}
+		(ch <= 'z' && ch >= 'a') || (ch <= 'Z' && ch >= 'A')
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+\vfill
+
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	In English, the statement "I will not not speak" means the same as "I will speak." In C\raisebox{.15em}{++}, is \texttt{!!x} the same as \texttt{x}?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Yes. \verb+!!x+ is equivalent to \verb+!(!x)+ which is logially equivalent to \verb+x+.} 
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Construct a conditional expression that is equal to the absolute value of a variable. That is, if a variable \texttt{x} is positive, the value of the expression is just \texttt{x}, but if \texttt{x} is negative, the value of the expression is \texttt{-x}, which is positive.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Consider the following code:}
+	\begin{verbatim}
+		x = (x > 0) ? x : -x; 
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Rewrite the following fragment using \texttt{switch}:
+	\begin{verbatim}
+	if (ch == 'A')
+	      a_grade++;
+	else if (ch == 'B')
+	      b_grade++;
+	else if (ch == 'C')
+	      c_grade++;
+	else if (ch == 'D')
+	      d_grade++;
+	else
+	      f_grade++;
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Consider the following code:}
+	\begin{verbatim}
+		switch (ch)
+		{
+		    case 'A':
+		        a_grade++;
+		        break;
+		    case 'B':
+		        b_grade++;
+		        break;
+		    case 'C':
+		        c_grade++;
+		        break;
+		    case 'D':
+		        d_grade++;
+		        break;
+		    default:
+		        f_grade++;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	In Listing 6.10, what advantage would there be in using character labels, such as \texttt{a} and \texttt{c}, instead of numbers for the menu choices and switch cases? (Hint: Think about what happens if the user types \verb+q+ in either case and what happens if the user types \texttt{5} in either case.)
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Well, by using character labels the exit condition could be \verb+e+ or \verb+q+, so typing either one would be a valid exit condition.} 
+\end{minipage} 
+\\[.2cm]
+\vfill
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the following code fragment:
+	\begin{verbatim}
+	int line = 0;
+	char ch;
+	while (cin.get(ch))
+	{
+	      if (ch == 'Q')
+	            break;
+	      if (ch != '\n')
+	            continue;
+	      line++;
+	}
+	\end{verbatim}
+Rewrite this without using \texttt{break} or \texttt{continue}.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:} 
+	\begin{verbatim}
+		int line = 0;
+		char ch;
+		while (cin.get(ch) != 'Q' && cin.good())
+		{
+		    if (ch == '\n')
+		        line++;
+		}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	a. part a \\
+	\phantom{a. } {\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	b. part b \\
+	\phantom{b. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	c. part c \\
+	\phantom{c. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	d. part d \\
+	\phantom{d. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[.2cm]

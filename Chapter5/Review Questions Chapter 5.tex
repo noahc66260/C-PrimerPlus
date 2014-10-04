@@ -1,0 +1,199 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 5: Loops and Relational Expressions \\
+	Review Questions} \normalsize \vspace{.5 cm}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+% Note 8.23.11: Also, stop forgetting to indent in environments. It's important that my code is readable. 
+
+% Note 8.23.11: I realized. If I'm going to be making a template, I should try to format it with care and then test-run it on at least two documents to make sure that I'm not missing anything. In this case, I discovered that I should have used relative, not absolute spacing, and that extra spacing after each question makes the document look nicer. Now I can't fix everything without doing it manually :(
+
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What's the difference between an entry-condition loop and an exit-condition loop? Which kind is each of the C\raisebox{0.15ex}{++} loops?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape An entry-condition loop evaluates the test-condition before the first execution of the body. An exit-condition loop evaluates the test-condition after the first execution of the body. Thus, an entry-condition loop executing at least once is contingent on the test-condition evaluating to \texttt{true} the first time and an exit-conditon loop will always execute the body at least once, even if the test-condition is false. \texttt{for} and \texttt{while} loops are entry-condition loops and \texttt{do while} loops are exit-condition loops.} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	What would the following code fragment print if it were part of a valid program?
+\begin{verbatim}
+	int i;
+	for (i = 0; i < 5; i++)
+	      cout << i;
+	      cout << endl;
+\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The code would print the following:}
+	\begin{verbatim}
+		01234
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	What would the following code fragment print if it were part of a valid program?
+\begin{verbatim}
+	int j;
+	for(j = 0; j < 11; j +=3)
+	      cout << j;
+	cout << endl << j << endl;
+\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The code would print the following:}
+	\begin{verbatim}
+		0369
+		12
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	What would the following code fragment print if it were part of a valid program?
+\begin{verbatim}
+	int j = 5;
+	while (++j < 9)
+	      cout << j++ << endl;
+\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The code would print the following:}
+	\begin{verbatim}
+		6
+		8
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	What would the following code fragment print if it were part of a valid program?
+\begin{verbatim}
+	int k = 8;
+	do
+	      cout << "k = " << k << endl;
+	while (k++ < 5);
+\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The code would print the following:}
+	\begin{verbatim}
+		k = 8
+	\end{verbatim} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Write a \texttt{for} loop that prints the values 1 2 4 8 16 32 64 by increasing the value of a counting variable by a factor of two in each cycle. 
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		for (int i = 1; i < 65; i *= 2)
+		    cout << i << " ";
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	How do you make a loop body include more than one statement?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape To make a loop body include more than one statement, braces should immediately follow the loop and enclose whichever statements are to be included in the body of the loop.} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Is the following statement valid? If not, why not? If so, what does it do? \\[1ex]
+\verb+int x = (1,024);+ \\[1 ex]
+What about the following?
+\begin{verbatim}
+	int y;
+	y = 1,024;
+\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Both statements are valid. The first statement assigns the value 024 to \texttt{x}. Since 024 is octal, it is converted to an int which would be 20 in decimal. The second statement initializes \texttt{y} to 1. The comma operator separates two or more expressions where only one is expected. The comma operator has the lowest precedence among any C++ operators. When the set of expressions has to be evaluated for a value, only the rightmost expression is considered. } 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	How does \verb+cin>>ch+ differ from \texttt{cin.get(ch)} and \texttt{ch=cin.get()} and how it views input?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape \verb+cin>>ch+ skips over whitespace, where the other two do not.} 
+\end{minipage} 
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	a. part a \\
+	\phantom{a. } {\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	b. part b \\
+	\phantom{b. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	c. part c \\
+	\phantom{c. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	d. part d \\
+	\phantom{d. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[.2cm]

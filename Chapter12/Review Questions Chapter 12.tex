@@ -1,0 +1,341 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 12: Classes and Dynamic Memory Allocation \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose a \texttt{String} class has the following private members:
+	\begin{verbatim}
+		class String
+		{
+		private:
+		    char * str;   // point to string allocated by new
+		    int len;      // holds length of string
+		//...
+		};
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	What's wrong with this default constructor?
+	\begin{verbatim}
+		String::String() {}
+	\end{verbatim}
+	\\[1ex]
+	{\slshape 
+		The variables \verb+str+ and \verb+len+ are not initialized.
+		Also, no memory is allocated dynamically, so if the destructor
+		includes the \verb+delete+ command, the program will have
+		memory problems since freeing unallocated memory has
+		undefined behavior.
+	} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	What's wrong with this constructor?
+	\begin{verbatim}
+		String::String(const char * s)
+		{
+		    str = s;
+		    len = strlen(s);
+		}
+	\end{verbatim}
+	\\[1ex]
+	{\slshape 
+		\verb+str+ is a pointer to a \verb+char+ and the actual
+		argument to the function is passed by value, which means
+		that \verb+str+ is set to point to an automatic variable's
+		memory location.
+		When the function terminates, \verb+str+ will be a dangling
+		pointer.
+		Also, the class specified that \verb+str+ would point to
+		dynamic memory, which is not the case here.
+	}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	What's wrong with this constructor?
+	\begin{verbatim}
+		String::String(const char * s)
+		{
+		    strcpy(str, s);
+		    len = strlen(s);
+		}
+	\end{verbatim}
+	\\[1ex]
+	{\slshape 
+		We never defined the memory location of \verb+str+. 
+		When we use \verb+strcpy()+, we are copying the string
+		to a pointer that was never initialized.
+		Also, the class specified that \verb+str+ would point to
+		dynamic memory, which is not the case here.
+	} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Name three problems that may arise if you define a class in which a pointer member is initialized by using \texttt{new}. Indicate how they can be remedied. 
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{enumerate}
+			\item If the memory is not deallocated then there will be
+			a memory leak.
+			To remedy this, you must make sure to include the 
+			\verb+delete+ in the destructor.
+			\item The default copy constructor will copy member by member
+			and when the temporary object is destroyed, it will free 
+			the memory you previously allocated to another object.
+			To remedy this, you should explicitly define the copy constructor
+			so that there is deep copying
+			\item The default assigment operator does not do deep copying
+			and will cause memory problems when the destructor is called
+			for both objects. 
+			To remedy this, you should explicitly overload 
+			the assignment operator to allow for deep copying.
+		\end{enumerate}
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	What class methods does the complier generate automatically if you don't provide them explicitly? Describe how these implicitly generated functions behave.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The compiler automatically generates a default constructor,
+		destructor, copy constructor, and an overloaded assignment
+		operator.
+		The default constructor creates the object but does not initialize
+		any variables.
+		The default destructor destroys the object but does nothing else.
+		The default copy constructor creates a temporary object
+		whose member values are exactly those of the object used as
+		an argument.
+		The copy constructor uses the same destructor as the other
+		objects do.
+		The default overloaded assignment operator copies member by
+		member, which is also shallow copying. 
+	} 
+\end{minipage} 
+\vfill 
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Identify and correct the errors in the following class declaration:
+	\begin{verbatim}
+		class nifty
+		{
+		// data
+		    char personality[];
+		    int talents;
+		// methods
+		    nifty();
+		    nifty(char * s);
+		    ostream & operator << (ostream & os, nifty & n);
+		}
+
+		nifty:nifty()
+		{
+		    personality = NULL; 
+		    talents = 0;
+		}
+
+		nifty:nifty(char * s)
+		{
+		    personality = new char [strlen(s)];
+		    personality = s;
+		    talents = 0;
+		}
+
+		ostream & nifty:operator<<(ostream & os, nifty & n)
+		{
+		    os << n;
+		}
+	\end{verbatim}
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		Here is what the code should look like:
+	}
+	\begin{verbatim}
+		using std::ostream;
+		class nifty
+		{
+		// data
+		    char * personality;
+		    int talents;
+		// methods
+		    nifty();
+		    nifty(const char * s);
+		    friend ostream & operator<<(ostream & os, const nifty & n);
+		};
+
+		nifty::nifty()
+		{
+		    personality = NULL; 
+		    talents = 0;
+		}
+
+		nifty::nifty(const char * s)
+		{
+		    personality = new char[std::strlen(s) + 1];
+		    std::strcpy(personality, s);
+		    talents = 0;
+		}
+
+		ostream & operator<<(ostream & os, const nifty & n)
+		{
+		    os << n;
+		    return os;
+		}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the following class declaration:
+	\begin{verbatim}
+		class Golfer
+		{
+		private:
+		    char * fullname; // points to string containing golfer's name
+		    int games;       // holds number of holf games played
+		    int * scores;    // points to first element of array of golf scores
+		public:
+		    Golfer();
+		    Golfer(const char * name, int g = 0);
+		    // creates empty dynamic array of g elements if g > 0
+		    Golfer(const Golfer & g);
+		    ~Golfer();
+		};
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	What class methods would be invoked by each of the following statements?
+	\begin{verbatim}
+		Golfer nancy;                         // #1
+		Golfer lulu("Little Lulu");           // #2
+		Golfer roy("Roy Hobbs", 12);          // #3
+		Golfer * par = new Golfer;            // #4
+		Golfer next = lulu;                   // #5
+		Golfer hazzard = "Weed Thwacker";     // #6
+		*par = nancy;                         // #7
+		nancy = "Nancy Putter";               // #8
+	\end{verbatim}
+	\\[1ex]
+	{\slshape 
+		Statement #1 would use the default constructor.
+
+		Statement #2 would use the explicit constructor where the second
+		argument assumes its default value of 0.
+
+		Statement #3 would use the explicit constructor.
+
+		Statement #4 uses the default constructor.
+
+		Statement #5 uses the copy constructor, and possibly the 
+		default assignment operator. 
+
+		Statement #6 uses the explicit constructor.
+
+		Statement #7 uses the default overloaded assignment operator.
+
+		Statement #8 uses the explicit constructor and the
+		default assignment operator.
+	} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	Clearly, the class requires several more methods to make it useful. What additional method does it require to protect against data corruption? \\[1ex]
+	{\slshape 
+		We need to explicitly define a copy constructor and
+		the assignment operator to ensure deep copying. 
+		Also, we must ensure that the destructor
+		deallocates memory with the \verb+delete+ command. 
+	}
+	{} % space for comments to be included
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

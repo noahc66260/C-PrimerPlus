@@ -1,0 +1,353 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 9: Memory Models and Namespaces \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What storage scheme would you use for the following situations?
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	\verb+homer+ is a formal argument (parameter) to a function. \\[1ex]
+	{\slshape Automatic.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	The \verb+secret+ variable is to be shared by two files. \\[1ex]
+	{\slshape Global (static with external linkage).}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	The \verb+topsecret+ variable is to be shared by the functions in one file but hidden from other files. \\[1ex]
+	{\slshape Static with internal linkage.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	\verb+beencalled+ keeps track of how many times the function containing it has been called. \\[1ex]
+	{\slshape Static with no linkage.} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Describe the differences between a \verb+using+ declaration and a \verb+using+ directive.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	The \verb+using+ declaration makes a single function, structure, 
+	constant, or member of the namespace available throughout the
+	scope of the declaration.
+	The \verb+using+ directive makes every function, structure, 
+	constant, and member of the namespace available throughout the
+	scope of the declaration.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Rewrite the following so that it doesn't use \verb+using+ declarations or \verb+using+ directives:
+	\begin{verbatim}
+		#include<iostream>
+		using namespace std;
+		int main()
+		{
+		    double x;
+		    cout << "Enter value: ";
+		    while (! (cin >> x))
+		    {
+		        cout << "Bad input. Please enter a number: ";
+		        cin.clear();
+		        while (cin.get() != '\n')
+		            continue;
+		    }
+		    cout << "Value = " << x << endl;
+		    return 0;
+		}
+	\end{verbatim}
+\end{minipage}
+\newpage
+
+\phantom{}
+\vfill
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		#include<iostream>
+		int main()
+		{
+		    double x;
+		    std::cout << "Enter value: ";
+		    while (! (std::cin >> x))
+		    {
+		        std::cout << "Bad input. Please enter a number: ";
+		        std::cin.clear();
+		        while (std::cin.get() != '\n')
+		            continue;
+		    }
+		    std::cout << "Value = " << x << std::endl;
+		    return 0;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Rewrite the following so that it uses \verb+using+ declarations instead of the \verb+using+ directive:
+	\begin{verbatim}
+		#include<iostream>
+		using namespace std;
+		int main()
+		{
+		    double x;
+		    cout << "Enter value: ";
+		    while (! (cin >> x))
+		    {
+		        cout << "Bad input. Please enter a number: ";
+		        cin.clear();
+		        while (cin.get() != '\n')
+		            continue;
+		    }
+		    cout << "Value = " << x << endl;
+		    return 0;
+		}
+	\end{verbatim}
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{}
+\vfill
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		#include<iostream>
+		int main()
+		{
+		    using std::cout;
+		    using std::cin;
+		    using std::endl;
+		    double x;
+		    cout << "Enter value: ";
+		    while (! (cin >> x))
+		    {
+		        cout << "Bad input. Please enter a number: ";
+		        cin.clear();
+		        while (cin.get() != '\n')
+		            continue;
+		    }
+		    cout << "Value = " << x << endl;
+		    return 0;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Say that the \verb+average(3,6)+ function returns an \verb+int+ average of the two \verb+int+ arguments when it is called in one file, and it returns a \verb+double+ average of the two \verb+int+ arguments when it is called in a second file in the same program. How could you set this up?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	We could create a function called \verb+average()+ in a given
+	namespace which accepts two \verb+int+s and returns an \verb+double+.
+	Then we could create a program were we declare and define the 
+	function \verb+average()+ which accepts two \verb+int+s and returns
+	a \verb+double+.
+	If we wanted to use the function that returned an \verb+int+, we 
+	would call \verb+average()+. 
+	If we wanted to use the function that returned a double, we would
+	use \verb+<namespace>::average()+ where \verb+<namespace>+
+	represents the namespace we created for the function.
+	} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{}
+\vfill
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	What will the following two-file program display?
+	\begin{verbatim}
+		// file1.cpp
+		#include<iostream>
+		using namespace std;
+		void other();
+		void another();
+		int x = 10;
+		int y;
+
+		int main()
+		{
+		    cout << x << endl;
+		    {
+		        int x = 4;
+		        cout << x << endl;
+		        cout << y << endl;
+		    }
+		    other();
+		    another();
+		    return 0;
+		}
+
+		void other()
+		{
+		    int y = 1;
+		    cout << "Other: " << x << ", " << y << endl;
+		}
+
+		// file2.cpp
+		#include<iostream>
+		using namespace std;
+		extern int x;
+		namespace
+		{
+		    int y = -4;
+		}
+
+		void another()
+		{
+		    cout << "another (): " << x << ", " << y << endl;
+		}
+	\end{verbatim}
+\end{minipage}
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape It would print the following:} \\
+	\phantom{\qquad}10 \\
+	\phantom{\qquad}4 \\
+	\phantom{\qquad}(garbage) \\
+	\phantom{\qquad}Other: 10, 1 \\
+	\phantom{\qquad}another (): 10, -4 \\
+%
+%	Note: (garbage) could be anything since \verb+y+ is not defined
+%	before its first use. 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{}
+\vfill
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	What will the following program display?
+	\begin{verbatim}
+		#include <iostream>
+		using namespace std;
+		void other();
+		namespace n1
+		{
+		    int x = 1;
+		}
+
+		namespace n2
+		{
+		    int x = 2;
+		}
+
+
+		int main()
+		{
+		    using namespace n1;
+		    cout << x << endl;
+		    {
+		        int x = 4;
+		        cout << x << ", " << n1::x << ", " << n2::x << endl;
+		    }
+		    using n2::x;
+		    cout << x << endl;
+
+		    other();
+		    return 0;
+		}
+
+		void other()
+		{
+		    using namespace n2;
+		    cout << x << endl;
+		    {
+		        int x = 4;
+		        cout << x << ", " << n1::x << ", " << n2::x << endl;
+		    }
+		    using n2::x;
+		    cout << x << endl;
+		}
+	\end{verbatim}
+\end{minipage}
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape We would see the following:}\\
+	\phantom{\qquad}1 \\
+	\phantom{\qquad}4, 1, 2 \\
+	\phantom{\qquad}2 \\
+	\phantom{\qquad}2 \\
+	\phantom{\qquad}4, 1, 2 \\
+	\phantom{\qquad}2
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\vfill

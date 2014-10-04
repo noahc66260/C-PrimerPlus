@@ -1,0 +1,287 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 10: Objects and Classes \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\phantom{\quad} \vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What is a class?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	A class is a user-defined type that is an abstraction 
+	defined in terms of its interface with the user. 
+	It allows the user to access to member variables and 
+	member functions appropriate for the type all in one
+	place.
+	In a general sense, a class is a template for an object
+	that provides a set of instructions for the data the
+	object will hold and the operations that can be performed
+	on the object. 
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	How does a class accomplish abstraction, encapsulation, and data hiding?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Abstraction is accomplished by how the functions are
+	defined in terms of what the user can do with the object. 
+	Encapsulation is accomplished by how the member variables
+	and member functions are all in one place.
+	Data hiding is accomplished by the private an public
+	sections of a class, where private data is only accessable
+	by the object and cannot be accessed directly by the user.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	What is the relationship between an object and a class?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	An object is an instance of a class.
+	In a general sense, a class is a template for the data that
+	an object will hold and the operations that can be perfomed
+	on the object.
+	The object is the actual variable that the user deals with
+	directly.
+	As an analogy, a class is a blueprint for a building, 
+	and an object is the physical building after construction.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	In what way, aside from being functions, are class function members different from class data members?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Functions of classes can access private data of the same class.
+	Generally, functions are how the user interacts with the 
+	data members of an object, because it is good programming
+	style to keep data members of an object private.
+	} 
+\end{minipage} 
+\vfill
+\vfill
+\newpage
+
+\phantom{\quad} \vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Define a class to represent a bank account. Data members should include the depositor's name, the account number (use a string), and the balance. Member functions should allow the following.
+	\begin{itemize}
+		\item Creating an object and initializing it.
+		\item Displaying the depositor's name, account number, and balance.
+		\item Dspositing an amount of money given by an argument
+		\item Withdrawing an amount of money given by an argument
+	\end{itemize}
+	Just show the class declaration, not the method implementations. (Programming Exercise 1 provides you with an opportunity to write the implementation.)
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	}
+	\begin{verbatim}
+		class BankAccount
+		{
+		private:
+		    string name;
+		    string accountNum;
+		    double balance;
+		public:
+		    BankAccount(string name, string account, double balance);
+		    void PrintAccount();
+		    void Deposit(double sum);
+		    void Withdraw(double sum);
+		    ~BankAccount();
+		};
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	When are class constructors called? When are class destructors called?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Class constructors are called upon declaration of the object.
+	A constructor is what allows an object to come into existance.
+	Destructors are called implicitly and depend on the type of 
+	storage class for the object. 
+	For example, if the object is static, the destructor will
+	be called when the program terminates. 
+	If the object is a local variable, the destructor will be called
+	when the program leaves the block of code that the 
+	object was declared in.
+	}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Provide code for a constructor for the bank account class from Review Question 5.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	}
+	\begin{verbatim}
+		BankAccount::BankAccount(string name, string account, double balance)
+		{
+		    this->name = name; 
+		    this->accountNum = account;
+		    this->balance = balance;
+		    return;
+		}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad} \vfill
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	What is a default constructor? What is the advantage of having one?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	The default constructor is a constructor that is called 
+	implicitly when the object is declared in the event that
+	the user did not create his own constuctor.
+	The advantage of having one is that it makes the use of
+	objects more like the other fundamental data types. 
+	Also, less code needs to be written and the behavior
+	of a default constructor is very well defined.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Modify the \texttt{Stock} class (the version in \verb+stock2.h+) so that it has member functions that return the values of the individual data members. Note: A member that returns the company name should not provide a weapon for altering the array. That is, it can't simply return a \verb+char *+. It could return a \texttt{const} pointer, or it could return a pointer to a copy of the array, manufactured by using \texttt{new}.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	}
+	\begin{verbatim}
+		#ifndef STOCK2_H_
+		#define STOCK2_H_
+		
+		class Stock
+		{
+		private:
+		    char company[30];
+		    int shares;
+		    double share_val;
+		    double total_val;
+		    void set_tot() {total_val = shares * share_val;}
+		public:
+		    Stock();     // Default constructor
+		    Stock(const char * co, int n = 0, double pr = 0.0);
+		    ~Stock();    // Do-nothing destructor
+		    void buy(int num, double price);
+		    void sell(int num, double price);
+		    void update(double price);
+		    void show() const;
+		    const Stock & topval(const Stock & s) const;
+
+		    // functions to return values of data members
+		    const char * showCompany() {return this->company;}
+		    int showShares() {return shares;}
+		    double showShareValue() {return share_val;}
+		    double showTotalValue() {return total_val;}
+		};
+
+		#endif
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\noindent 10. 
+\begin{minipage}[t]{11.5 cm}
+	What are \texttt{this} and \texttt{*this}?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	\verb+this+ is a pointer to the object that \verb+this+
+	is used in.
+	\verb+*this+ is the object. 
+	} 
+\end{minipage} 
+\vfill
+	
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\vfill

@@ -1,0 +1,406 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 15: Friends, Exceptions, and More \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\phantom{\quad}\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What's wrong with the following attempts at establishing friends?
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	\begin{verbatim}
+		class snap {
+		    friend clasp;
+		    ...
+		};
+		class clasp { ... };
+	\end{verbatim}	
+	{\slshape 
+		The line of code \verb+friend clasp+ in the \verb+snap+ class
+		should be \verb+friend class clasp+ so the compiler knows that
+		\verb+clasp+ is a class. 
+	} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	\begin{verbatim}
+		class cuff {
+		public:
+		    void snip(muff &) { ... }
+		    ...
+		};
+		class muff {
+		    friend void cuff::snip(muff &);
+		    ...
+		};
+	\end{verbatim}
+	{\slshape 
+		The \verb+cuff+ class uses a \verb+muff+ reference in as a
+		formal argument in a member function.
+		However, the compiler has no way of knowing what type \verb+muff+
+		is.
+		To solve this problem, we should insert a forward declaration
+		before we define the \verb+cuff+ class that reads
+		\verb+class muff;+
+	}\\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }c. 
+\begin{minipage}[t]{11.5 cm}
+	\begin{verbatim}
+		class muff {
+		    friend void cuff::snip(muff &);
+		    ...
+		};
+		class cuff {
+		public:
+		    void snip(muff &) { ... }
+		    ...
+		};
+	\end{verbatim}
+	{\slshape 
+		The complier needs to see the definition of the \verb+cuff+ class
+		before we can declare its functions friends to another class. 
+		We can't solve this by a forward declaration at the top since
+		the definition of the \verb+cuff+ class must precede that of 
+		the \verb+muff+ class. 
+		However, this this suffers the same problem as part (b), which 
+		can be addresses by placing a forward declaration for the
+		\verb+muff+ class at the top.
+	} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{\quad}\vfill
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	You've seen how to create mutual class friends. Can you create a more restricted form of friendship in which only some members of Class B are friends to Class A and some members of A are friends to B? Explain.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		This is a tricky situation. 
+		The compiler requires that we place a class definition
+		before specific functions from that class are declared 
+		as friends to another class. 
+		However, if we want to make both classes such that each 
+		class has functions that are friends of the other class,
+		we clearly have a problem.
+		A forward declaration is only helpful when we use a type
+		that is of a class not declared yet;
+		it is of no help if we wish to declare a class's functions
+		as friends of another class before the original class
+		is defined. 
+		So as we can see, we can only have one class have member
+		functions which are friends to the other class. 
+		Otherwise, it is best to make two classes mutual friends. 
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	What problems might the following nested class declaration have?
+	\begin{verbatim}
+		class Ribs
+		{
+		private:
+		    class Sauce
+		    {
+		        int soy;
+		        int sugar;
+		    public:
+		        Sauce(int s1, int s2) : soy(s1), sugar(s2) { }
+		    };
+		    ...
+		};
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The problem is that we have no way of accessing the 
+		variables \verb+soy+ and \verb+sugar+ of the 
+		\verb+Sauce+ class once we construct an object
+		of that class.
+		The private variables of the \verb+Sauce+ class can only 
+		be accessed by the \verb+Sauce+ class directly and
+		can only be accessed by the \verb+Ribs+ class indirectly
+		through the public member functions of the \verb+Sauce+ class.
+		In this case, there are none which return the values 
+		\verb+soy+ and \verb+sugar+.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	How does \texttt{throw} differ from \texttt{return}?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		When throw is called, control is moved to successive calling 
+		functions until the first \verb+try-catch+ block is reached
+		which matches the exception type thrown, or else the program
+		aborts because of an unexpected exception.  
+		When return is called control goes directly to the calling
+		function.
+		Both share the property that automatic variables declared
+		after the function that the control is given to are deallocated 
+		from memory.
+	} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}\vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you have a hierarchy of exception classes that are derived from a base exception class. In what order should you place \texttt{catch} blocks?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\verb+catch+ blocks should be placed in decending order of 
+		derivation. 
+		That is, \verb+catch+ blocks whose argument is a derived class
+		should be placed before the \verb+catch+ block of a base class.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the \texttt{Grand}, \texttt{Superb}, and \texttt{Magnificent} classes defined in this chapter. Suppose \texttt{pg} is a type \texttt{Grand} * pointer that is assigned the address of an object of one of these three classes and that \texttt{ps} is a type \texttt{Superb} * pointer. What is the difference in how the following two code samples behave?
+	\begin{verbatim}
+		if (ps = dynamic_cast<Superb *>(pg))
+		    ps->say();   // sample #1
+
+		if (typeid(*pg) == typeid(Superb))
+		    (Superb *) pg->say();   // sample #2
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The first code sample will execute the statement
+		\verb+ps->say();+ if \verb+pg+ points to a Superb or
+		Magnificent object. 
+		Since the \verb+say()+ function is virtual, the function
+		call will correspond to the object \verb+pg+ points to.
+		In the event that \verb+pg+ points to a \verb+Grand+ object,
+		the test statement will evaluate as false and nothing
+		will happen.
+
+		The second code sample will execute the \verb+say()+ member
+		function of the object \verb+pg+ points to only if 
+		\verb+pg+ points to a \verb+Superb+ object. 
+	}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	How is the \verb+static_cast+ operator different from the \verb+dynamic_cast+ operator?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The operators have the form \\
+		\verb+dummy_cast <+ \texttt{type-name}
+		\verb+> (+\texttt{expression}\verb+)+. \\
+		The \verb+static_cast+ operator will make the conversion if 
+		the expression can be converted to the type specified by
+		type-name implicitly or vica versa. 
+		The \verb+dynamic_cast+ operator will allow us to assign a
+		pointer to an object only if the expression can be implicitly
+		converted to the type-specified by type-name.
+	} 
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+% Two parts 
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Three Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Four Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Five Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Six Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	part f \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

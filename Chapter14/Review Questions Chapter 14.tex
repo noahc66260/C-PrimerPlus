@@ -1,0 +1,419 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 14: Reusing Code in C\raisebox{.15ex}{++} \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	For each of the following sets of classes, indicate whether public 
+	or private derivation is more appropriate for Column B: \\
+	\begin{center}
+		\begin{tabular}{l l}
+			\hline
+			A 		& B \\ \hline
+			class Bear	& class PolarBear \\ \hline
+			class Kitchen	& class Home \\ \hline
+			class Person	& class Programmer \\ \hline
+			class Person	& class HorseandJockey \\ \hline
+			class Person, class Automobile & class Driver \\ \hline
+		\end{tabular}
+	\end{center}
+\end{minipage}
+\vfill
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{itemize}
+			\item 
+				The PolarBear class should be derived publically since a
+				polar bear is a kind of bear.
+			\item
+				The Home class should derive the Kitchen class privately since
+				a home has a kitchen.
+			\item
+				The Programmer class should use public derivation since
+				a programmer is a person.
+			\item
+				The HorseandJockey class should use private derivation since
+				a horse and jockey have a person.
+			\item
+				The Driver class should use public derivation to inherit the
+				Person class since a driver is a person. 
+				This class should also use private derivation to inherit the 
+				Automobile class since a driver has an automobile. 
+		\end{itemize}
+	} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you have the following definitions:
+	\begin{verbatim}
+		class Frabjous {
+		private:
+		    char fab[20];
+		public:
+		    Frabjous(const char * s = "C++") : fab(s) { }
+		    virtual void tell () { cout << fab; }
+		};
+
+		class Gloam {
+		private:
+		    int glip;
+		    Frabjous fb;
+		public:
+		    Gloam(int g = 0, const char * s = "C++");
+		    Gloam(int g, const Frabjous & f);
+		    void tell();
+		};
+	\end{verbatim}
+	Given that \texttt{Gloam} version of \texttt{tell()} should display the values of \texttt{glip} and \texttt{fb}, provide definitions for the three \texttt{Gloam} methods.
+\end{minipage}
+
+\vfill
+
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		See the following code:
+	}
+	\begin{verbatim}
+		Gloam::Gloam(int g, const char * s) : fb(s), glip(g)
+		{
+		}
+
+		Gloam::Gloam(int g, const Frabjous & f) : fb(f), glip(g)
+		{
+		}
+
+		void Gloam::tell()
+		{
+		   std::cout << "fb = ";
+		   fb.tell();
+		   std::cout << std::endl;
+		   std::cout << "glip = " << glip << std::endl;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you have the following definitions:
+	\begin{verbatim}
+		class Frabjous {
+		private:
+		    char fab[20];
+		public:
+		    Frabjous(const char * s = "C++") : fab(s) { }
+		    virtual void tell () { cout << fab; }
+		};
+
+		class Gloam : private Frabjous {
+		private:
+		    int glip;
+		public:
+		    Gloam(int g = 0, const char * s = "C++");
+		    Gloam(int g, const Frabjous & f);
+		    void tell();
+		};
+	\end{verbatim}
+Given that \texttt{Gloam} version of \texttt{tell()} should display the values of \texttt{glip} and \texttt{fb}, provide definitions for the three \texttt{Gloam} methods.
+\end{minipage}
+
+\vfill
+
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		See the following code:
+	}
+	\begin{verbatim}
+		Gloam::Gloam(int g, const char * s) : Frabjous(s), glip(g)
+		{
+		}
+
+		Gloam::Gloam(int g, const Frabjous & f) : Frabjous(f), glip(g)
+		{
+		}
+
+		void Gloam::tell()
+		{
+		   std::cout << "fb = ";
+		   Frabjous::tell();
+		   std::cout << std::endl;
+		   std::cout << "glip = " << glip << std::endl;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you have the following definition, based on the \texttt{Stack} template of Listing 14.13 and the \texttt{Worker} class of Listing 14.10:
+	\begin{verbatim}
+		Stack<Worker *> sw;
+	\end{verbatim}
+Write out the class declaration that will be generated. Just do the class declaration, not the non-inline class methods.
+\end{minipage}
+\vfill
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		See the following code:
+	} 
+	\begin{verbatim}
+		class Stack
+		{
+		private:
+		   enum {MAX = 10}; 
+		   Worker * items[MAX];
+		   int top;
+		public:
+		   Stack();
+		   bool isempty();
+		   bool isfull();
+		   bool push(const Worker * & item);
+		   bool pop(Worker * & item);
+		};
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Use the template definitions in this chapter to define the following:
+	\begin{itemize}
+		\item An array of \texttt{string} objects
+		\item A stack of arrays of \texttt{double}
+		\item An array of stacks of pointers to \texttt{Worker} objects
+	\end{itemize}
+	How many template class definitions are produced in Listing 14.18?
+\end{minipage}
+\vfill
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	\begin{itemize}
+		\item
+		   \verb+valarray<string> arr;+
+		\item
+		   \verb+stack< valarray<double> > stk;+
+		\item
+		   \verb+valarray< stack<Worker *> > arr;+
+	\end{itemize}
+	{\slshape
+		Four template class definitions are produced in Listing 14.18.
+	}
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Describe the differences between virtual and nonvirtual base classes.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The difference arrises when a derived object inherits two 
+		or more classes that were each derived from the same base 
+		object.
+		If we have non-virtual base classes, then the final object
+		inherits as many copies of the original base class as it inherits 
+		classes that were derived from the original base class.
+		If we have virtual base classes, then the final derived
+		class inherits a single copy of the original base class that
+		is shared between all virtual base classes.
+	}
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+% Two parts 
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Three Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Four Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Five Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Six Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	part f \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

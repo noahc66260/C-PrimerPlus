@@ -1,0 +1,144 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx, setspace, enumerate}
+% the setspace package allows us use of the 
+% spacing environment (\begin{spacing}{second arg}) where
+% second arg is a number to multiply to the spacing factor.
+% use 2 for double space, 1 for single space, etc.
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. }%
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+\newenvironment{cpartContinued}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. (continued)}%
+		\\
+		\phantom{#2. }
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+
+
+% set paragraph spacing like that in the book
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+
+% these new commands will make typing different formats easier.
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+\newcommand{\tbs}{\textbackslash}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{X}
+
+\begin{document}
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Modify the \ttt{Tv} and \ttt{Remote} classes as follows: 
+		\begin{enumerate}[a.]
+			\item
+				Make them mutual friends.
+			\item
+				Add a state variable member to the \ttt{Remote} class
+				that describes whether the rmote control is in normal
+				or interactive mode.
+			\item
+				Add a \ttt{Remote} method that displays the mode. 	
+			\item
+				Provide the \ttt{Tv} class with a method for
+				toggling the new \ttt{Remote} member.
+				This method should work only if the TV is in the on
+				state.
+		\end{enumerate}
+		Write a short program that tests these new features.
+	\end{cpart}
+
+	\begin{cpart}{2}
+		Modify Listing 15.11 so that the two exception types are classes
+		derived from the \ttt{logic\_error} class provided in the
+		\ttt{<stdexcept>} header file.
+		Have each \ttt{what()} method report the function name
+		and the nature of the problem.
+		The exception object need not hold the bad values;
+		they should just support the \ttt{what()} method.
+	\end{cpart}
+
+	\begin{cpart}{3}
+		This exercise is the same as Programming Exercise 2, except that
+		the exceptions should be derived from a base class (itself
+		derived from \ttt{logic\_error}) that stores the two
+		argument values, the exceptions should have a method that reports
+		these values as well as the function name, and a single
+		\ttt{catch} block that catches the base-class exemption should
+		be used for both exceptions, with either exception causing 
+		the loop to terminate.
+	\end{cpart}
+
+	\begin{cpart}{4}
+		Listing 15.16 uses two \ttt{catch} blocks after each \ttt{try}
+		block so that the \ttt{nbad\_index} exception leads to the 
+		\ttt{label\_val()} method being invoked.
+		Modify the program so that it uses a single \ttt{catch}
+		block after each \ttt{try} block and uses
+		RTTI to handle invoking \ttt{label\_val()} only when appropriate.
+	\end{cpart}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+use \hspace{...} if you prefer
+
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+			\end{tabbing}
+		}
+
+
+
+
+
+
+
+
+
+
+

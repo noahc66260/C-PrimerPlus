@@ -1,0 +1,8 @@
+This is a document that contains letters
+
+as well as numbers and newline characters as well. The
+intention is for this to complement the file
+read_file.cpp
+
+We'll see how it goes 12345. 
+

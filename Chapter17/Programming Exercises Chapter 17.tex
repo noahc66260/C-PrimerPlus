@@ -1,0 +1,339 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx, setspace, enumerate}
+% the setspace package allows us use of the 
+% spacing environment (\begin{spacing}{second arg}) where
+% second arg is a number to multiply to the spacing factor.
+% use 2 for double space, 1 for single space, etc.
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. }%
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+\newenvironment{cpartContinued}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. (continued)}%
+		\\
+		\phantom{#2. }
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+
+
+% set paragraph spacing like that in the book
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+
+% these new commands will make typing different formats easier.
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+\newcommand{\tbs}{\textbackslash}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{17}
+
+\begin{document}
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Write a program that counts the number of characters up to the
+		first \$ in input and that leaves the \$ in the input stream.
+	\end{cpart}
+
+	\begin{cpart}{2}
+		Wite a program that copies your keyboard input (up to the simulated
+		end-of-file) to a file named on the command line.
+	\end{cpart}
+
+	\begin{cpart}{3}
+		Write a program that copies one file to another.
+		Have the program take the filenames from the command line.
+		Have the program report if it cannot open a file.
+	\end{cpart}
+
+	\begin{cpart}{4}
+		Write a program that opens two text files for input and one for
+		output.
+		The program should concatenate the corresponding lines of the
+		input files, use a space as a separator,
+		and write the results to the output file.
+		If one file is shorter than the other, the remaining
+		lines in the longer file should also be copied to the output file.
+		For example, suppose the first input file has these contents.
+
+		{\ttfamily
+			eggs kites donuts \\
+			balloons hammers \\
+			stones
+		}
+
+		And suppose the second input file has these contents:
+
+		{\ttfamily
+			zero lassitude \\
+			finance drama
+		}
+
+		The resulting file woul dhave these contents: 
+		
+		{\ttfamily
+			eggs kites donuts zero lassitude \\
+			balloons hammers finance drama \\
+			stones
+		}
+	\end{cpart}
+
+	\begin{cpart}{5}
+		Mat and Pat want to invite their friends to a party, much as
+		they did in Programming Exercise 8 in Chapter 16, except now they
+		want a program that uses files.
+		They have asked you to write a program that does the following:
+		\begin{itemize}
+			\item
+				Reads a list of Mat's friends' names from a text file 
+				called \ttt{mat.dat}, which lists one friend per line.
+				The names are stored in a container and then displayed
+				in sorted order.
+			\item
+				Reads a list of Pat's friends names from a text file called
+				\ttt{pat.dat}, which lists one friend per line.
+				The names are stored in a container and then displayed 
+				in sorted order.
+			\item
+				Merges the two lists, eliminating duplicates, and stores
+				the result in the file \ttt{matnpat.dat}, one friend
+				per line.
+		\end{itemize}
+	\end{cpart}
+
+	\begin{cpart}{6}
+		Consider the class definitions of Programming Exercise 5 in
+		Chapter 14.
+		If you haven't yet done that exercise, do so now.
+		Then do the following: 
+
+		Write a program that uses standard C++ I/O and file I/O in 
+		conjunction with data of types \ttt{employee}, \ttt{manager}, 
+		\ttt{fink}, and \ttt{highfink}, as defined in Programming 
+		Exercise 5 in Chapter 14.
+		The program should be along the general lines of Listing 17.17 
+		in that it should let you add new data to a file.
+		The first time through, the program should solicit
+		data from the user, show all the entries, and save the 
+		information in a file.
+		On subsequent uses, the program should first read and display
+		the file data, let the user add data, and show all the data.
+		One difference is that data should be handled by an array
+		of pointers to type \ttt{abstr\_emp}.
+		That way, a pointer can point to an \ttt{abstr\_emp} object
+		or to objects of any of the three derived types.
+		Keep the array small to facilitate checking the program;
+		for example, you might limit the array to 10 elements.
+
+		{\ttfamily
+			const int MAX = 10; \hspace{8 ex} // no more than 10 objects \\
+			\ldots
+			abstr\_emp * pc[MAX];
+		}
+
+		For keyboard entry, the program should use a menu to offer the 
+		user the choice of which type of ojbect to create.
+		The menu should use a swtich to use \ttt{new} to create
+		an object of the desired type and to assign the object's address
+		to a pointer in the \ttt{pc} array.
+		Then that object can use the virtual \ttt{setall()} function to 
+		elicit the appropriate data from the user.
+	
+		\ttt{pc[i]->setall(); \quad 
+				// invokes function corresponding to type of object}
+
+		To save the data to a file, devise a virtual \ttt{writeall()}
+		function for that purpose.
+
+		{\ttfamily
+			for(i = 0; i < index; i++) \\
+			\phantom{for(}pc[i]->writeall(fout); \\
+			\phantom{for(}// fout ofstream connected to output file
+		}
+		
+		The tricky part is recovering the data from the file.
+		The problem is, how can the program know wheter the next item
+		to be recovered is type \ttt{employee} object, a \ttt{manager}
+		object, \ttt{fink} object, or a \ttt{highfink} type?
+		One approach is, when writing the data for an object file,
+		precede the data with an integer that indicates the type of 
+		object to follow.
+		Then, on file input, the program can read the inteer and then 
+		use \ttt{switch} to create the appropriate object to 
+		receive the data:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				enum classkind\{Employee, Manager, Fink, Highfink\};
+					// in class header \\
+				\ldots \\
+				int classtype; \\
+				while((fin >> classtype).get(ch))\{
+					// newline separates int from data \\
+				\> 	switch(classtype \{ \\
+				\> \> 		case Employee : pc[i] = new employee; \\
+				\> \> 		\phantom{case Employee : }break;
+			\end{tabbing}
+		}
+		Then you can use the pointer to invoke the virtual \ttt{getall()}
+		function to read the information: 
+
+		\ttt{pc[i++]->getall();}
+	\end{cpart}
+
+	\begin{cpart}{7}
+		Here is part of a program that reads keyboard input into a
+		vector of \ttt{string} objects, stores the string contents
+		(not the objects) in a file, and then copies the file 
+		contents back into a vector of \ttt{string} objects: 
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				int main() \\
+				\{ 
+				\+ \\
+					using namespace std; \\
+					vector<string> vostr; \\
+					string temp; \\
+					\\
+				\< // acquire strings \\
+					cout << "Enter strings (empty line to quit):\tbs n"; \\
+					while (getline(cin,temp) \&\& temp[0] != '\tbs 0') \\
+					\> 	vostr.push\_back(temp); \\
+					cout << "Here is your input.\tbs n"; \\
+					for\_each(vostr.begin(), vostr.end(), ShowStr); \\
+					\\
+				\< // store in a file \\
+					ofstream fout("strings.dat", ios\_base::out | 
+						ios\_base::binary); \\
+					for\_each(vostr.begin(), vostr.end(), Store(fout)); \\
+					fout.close(); \\
+					\\
+				\< // recover file contents \\
+					vector<string> vistr; \\
+					ifstream fin("strings.dat", ios\_base::in |
+						ios\_base::binary); \\
+					if (!fin.is\_open()) \\
+					\{ \\
+					\> 	cerr << "Could not open file for input.\tbs n"; \\
+					\> 	exit(EXIT\_FAILURE); \\
+					\} \\
+					GetStrs(fin, vistr); \\
+					cout << "\tbs nHere are the strings read from the file:
+						\tbs n"; \\
+					for\_each(vistr.begin(), vistr.end(), ShowStr); \\
+					\\
+					return 0; \\
+				\< \}
+			\end{tabbing}
+		}
+	\end{cpart}
+	\newpage
+	\begin{cpartContinued}{7}
+		Note that the file is opened in binary format and that the
+		intention is that I/O be accomplished with \ttt{read()} and
+		\ttt{write()}.
+		Quite a bit remains to be done: 
+		\begin{itemize}
+			\item
+				Write a \ttt{void ShowStr(const string \&)} function
+				that displays a \ttt{string} object followed by
+				a newline character. \\
+			\item
+				Write a \ttt{Store} functor that writes string information
+				a file. 
+				The \ttt{Store} constructor should specify an \ttt{ifstream}
+				object, and the overloaded \ttt{operator()(const string \&)}
+				should indicate the string to write.
+				A workable plan is to first write the string's size to
+				the file and then write the string's contents.
+				For example, if \ttt{len} holds the string size, you could
+				use this:
+				{\ttfamily
+					\begin{tabbing}
+						\hspace{9cm}\= \\
+						os.write((char *)\&len, sizeof(std::size\_t)); 
+							\> // store length \\
+						os.write(s.data(), len); 
+							\> // store characters
+					\end{tabbing}
+				}
+				\phantom{\quad}\\
+				The \ttt{data()} member returns a pointer to an array
+				that holds the characters in the string.
+				It's similar to the \ttt{c\_str()} member except that the
+				latter appends a null character. \\
+			\item
+				Write a \ttt{GetStr()} function that recovers information
+				from the file.
+				It can use \ttt{read()} to obtain the size of a string
+				and then use a loop to read that many characters from the
+				file, appending them to an initially empty temporary string.
+				Because a string's data is private, you have to use a
+				class method to get data into the string rather than
+				read directly into it.
+		\end{itemize}
+	\end{cpartContinued}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+use \hspace{...} if you prefer
+
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+			\end{tabbing}
+		}
+
+
+
+
+
+
+
+
+
+
+

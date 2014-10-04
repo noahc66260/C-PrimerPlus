@@ -1,0 +1,301 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx, setspace, enumerate}
+% the setspace package allows us use of the 
+% spacing environment (\begin{spacing}{second arg}) where
+% second arg is a number to multiply to the spacing factor.
+% use 2 for double space, 1 for single space, etc.
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. }%
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+\newenvironment{cpartContinued}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. (continued)}%
+		\\
+		\phantom{#2. }
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+
+
+% set paragraph spacing like that in the book
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+
+% these new commands will make typing different formats easier.
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+\newcommand{\tbs}{\textbackslash}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{12}
+
+\begin{document}
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Consider the following class declaration:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\= \\
+				class Cow \{ \\
+				\> 	char name[20]; \\
+				\> 	char * hobby; \\
+				\> 	double weight; \\
+				public: \\
+				\> 	Cow(); \\	
+				\> 	Cow(const char * nm, const char * ho, double wt); \\
+				\> 	Cow(const Cow \& c); \\
+				\> 	$\sim$Cow(); \\
+				\> 	Cow \& operator==(const Cow \& c); \\
+				\> 	void ShowCow() const; // display all cow data \\
+				\}; 
+			\end{tabbing}
+		}
+		Provide teh implementations for this class and write a short
+		program that uses all member functions.
+	\end{cpart}
+	\newpage
+
+	\begin{cpart}{2}
+		Enhance the \ttt{String} class declaration (that is, upgrade
+		\ttt{string1.h} to \ttt{string2.h}) by doing the following:
+		\begin{enumerate}[a.]
+			\item 
+				Overload the \ttt{+} operator to allow you to 
+				join two strings into one.
+			\item 
+				Provide a \ttt{stringlow()} member function that converts
+				all alphabetic characters in a string to lowercase.
+				(Don't forget the \ttt{cctype} family of character
+				functions.)
+			\item
+				Provide a \ttt{stringup()} member function that converts
+				all alphabetic characters in a string to uppercase.
+			\item
+				Provide a member function that takes a \ttt{char}
+				argument and returns the number of times the character
+				appears in a string.
+		\end{enumerate}
+		Test your work in the following program:
+		{\ttfamily 
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\=
+				\hspace{1cm}\=\hspace{3cm}\= \\
+				// pe12\_2.cpp \\
+				\#include <iostream> \\
+				using namespace std; \\
+				\#include "string2.h" \\
+				int main() \\
+				\{
+				\+ \\
+				String s1(" and I am a C++ student."); \\
+				String s2 = "Please enter your name: "; \\
+				String s3; \\
+				cout << s2; \> \> \> \> // overloaded << operator \\
+				cin >> s3;  \> \> \> \> // overloaded >> operator \\
+				s2 = "My name is " + s3; \> \> \> \>
+					// overloaded =, + operators \\
+				cout << s2 << "\tbs n"; \\
+				s2 = s2 + s1; \\
+				s2.stringup(); \> \> \> \> \> 
+					// converts string to uppercase \\
+				cout << "The string\tbs n" << s2 << "\tbs ncontains "
+						<< s2.has('A') \\
+				\phantom{cout} << " 'A' characters in it.\tbs n"; \\
+				s1 = "red"; \> \> \> // String(const char *), \\
+				\> \> \> // then String & operator=(const String &) \\
+				String rgb[3] = \{ String(s1), 
+					String("green"), String("blue")\}; \\
+				cout << "Enter the name of a primary color for 
+							mixing light: "; \\
+				String ans; \\
+				bool success = false; \\
+			\end{tabbing}
+		}
+		\end{cpart}
+		\newpage
+
+		\begin{cpartContinued}{2}
+		{\ttfamily 
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\=
+				\hspace{1cm}\=\hspace{3cm}\= 
+				\+ \\
+				while (cin >> ans) \\
+				\{ 
+				\+ \\
+				ans.stringlow(); \> \> \> // converts string to lowercase \\
+				for (int i = 0; i < 3; i++) \\
+				\{
+				\+ \\
+				if (ans == rgb[i]) \> \> // overloaded == operator \\
+				\{
+				\+ \\
+				cout << "That's right!\tbs n"; \\
+				success = true; \\
+				break; \\
+				\} 
+				\- \\
+				\} \\
+				if (success) \\
+				\> 	break; \\
+				else \\
+				\> 	cout << "Try again!\tbs n";
+				\- \\
+				\} \\
+				cout << "Bye\tbs n"; \\
+				return 0;
+				\- \\
+				\}
+			\end{tabbing}
+		}
+		Your output should look like this sample run:
+
+		{\ttfamily
+			Please enter your name:\ttb{ Fretta Farbo} \\
+			My name is Fretta Farbo. \\
+			The string \\
+			MY NAME IS FRETTA FARBO AND I AM A C++ STUDENT. \\
+			contains 6 'A' characters in it. \\
+			Enter the name of a primary color for mixing light;\ttb{ yellow} \\
+			Try again! \\
+			\ttb{BLUE} \\
+			That's right! \\
+			Bye
+		}
+	\end{cpartContinued}
+
+	\begin{cpart}{3}
+		Rewrite the \ttt{Stock} class, as described in Listings 10.7
+		and 10.8 in chapter 10, so that it uses dynamically allocated
+		memory directly instead of using \ttt{string} class objects
+		to hold the stock names.
+		Also, replace the \ttt{show()} member function with an overloaded
+		\ttt{operator<<()} definition.
+		Test the new definition program in Listing 10.9.
+	\end{cpart}
+
+	\begin{cpart}{4}
+		Consider the following variation of the \ttt{Stack} class 
+		defined in Listing 10.10:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\hspace{4cm}\= \\
+				// stack.h -- class declaration for the stack ADT \\
+				typedef unsigned long Item; \\
+				\\
+				class Stack \\
+				\{ \\
+				private: 
+				\+ \\
+				enum {MAX = 10}; \> // constant specific to class \\
+				Item * pitems; \> // holds stack items \\
+				int size; \> // number of elements in stack \\
+				int top; \> // index for top item of stack \\
+				\< public: \\
+				Stack(int n = 10); \> // creates stack with n elements \\
+				Stack(const Stack & st); \\
+				$\sim$Stack(); \\
+				bool isempty() const; \\
+				bool isfull() const; \\
+				// push() returns false if stack already is full,
+					true otherwise \\
+				bool push(const Item \& item); // add item to stack \\
+				// pop() returns false if stack already is empty, 
+					true otherwise \\
+				bool pop(Item \& item); // pop top into item \\
+				Stack & operator=(const Stack \& st); \\
+				\< \};
+			\end{tabbing}
+		}		
+		As the private members suggest, this class uses a dynamically
+		allocated array to thold the stack items.
+		Rewrite the methods to fit this new representation and 	
+		write a program that demonstrates all the methods, including
+		the copy constructor and assignment operator.
+	\end{cpart}
+
+	\begin{cpart}{5}
+		The Bank of Heather has performed a study showing that ATM 
+		customers won't wait more than one minute in line.
+		Using the simulation from Listing 12.10, find a value for
+		the number of customers per hour that leads to an
+		average wait time of one minute. 
+		(Use at least a 100-hours trial period.)
+	\end{cpart}
+
+	\begin{cpart}{6}
+		The Bank of Heather would like to know what would happen if it 
+		added a second ATM.
+		Modify the simulation in this chapter so that it has two
+		queues.
+		Assume that a customer will join the first queue if it has
+		fewer people in it than the second queue and that
+		the customer will joint the second queue otherwise.
+		Again, find a value for the number of customers per hour
+		that leads to an average wait time of one minute.
+		(Note: This is a non-linear problem in that doubling the
+		number of ATMs doesn't double the number of customers who can
+		be handled per hour with a one-minute wiat maximum.)
+	\end{cpart}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+use \hspace{...} if you prefer
+
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+			\end{tabbing}
+		}
+
+
+
+
+
+
+
+
+
+
+

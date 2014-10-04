@@ -1,0 +1,283 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 4: Compound Types \\
+	Review Questions} \normalsize \vspace{.5 cm}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+% Note 8.23.11: In the future when I format, I should use spacing that is relative to the size of the font, etc. If I say \\[.2 cm] and I change the size of the font, the spacing will not be scaled accordingly. However, if I say \\[1ex], then things will be scaled accordingly if the font is changed. :)
+
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	How would you declare each of the following?
+\end{minipage} \\
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	\verb+actors+ is an array of 30 \verb+char+ \\
+	{\slshape See the following code:}
+	\begin{verbatim}
+		char actors[30];
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	\verb+betsie+ is an array of 100 \verb+short+ \\
+	{\slshape See the following code:}
+	\begin{verbatim}
+		short betsie[100];
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	\verb+chuck+ is an array of 13 \verb+float+ \\
+	{\slshape See the following code:}
+	\begin{verbatim}
+		float chuck[13];
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	\verb+dipsea+ is an array of 64 \verb+long double+ \\
+	{\slshape See the following code:}
+	\begin{verbatim}
+		long double dipsea[64];
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Declare an array of five \texttt{ints} and initialize it to the first five odd positive integers.
+\end{minipage} \\
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		int sea[5] = {1,3,5,7,9};
+	\end{verbatim}} 
+\end{minipage} 
+\\[.2cm]
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Write a statement that assigns the sum of the first and last elements of the array in Question 2 to the variable \texttt{even}.
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		int even = sea[0] + sea[4];
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Write a statement that displays the value of the second element in the \texttt{float} array \texttt{ideas}.
+\end{minipage} \\
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		cout << ideas[1] << endl;
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Declare an array of \texttt{char} and initialize it to the string \verb+"cheeseburger"+. 
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		char land[] = "cheeseburger";
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Devise a structure declaration that describes a fish. The structure should include the kind, the weight in whole ounces, and the length in fractional inches.
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		struct fish
+		{
+		    char kind[20];
+		    int weight;
+		    double length;
+		};
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Declare a variable of the type defined in Question 6 and initialize it.
+\end{minipage} \\
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		struct fish goldfish = {"goldfish", 1, 1.5};
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Use \texttt{enum} to define a type called \texttt{Response} with the possible values \texttt{Yes, No,} and \texttt{Maybe. Yes} should be \texttt{1, No} should be \texttt{0}, and \texttt{Maybe} should be \texttt{2}.
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		enum response {No, Yes, Maybe};
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose \texttt{ted} is a \texttt{double} variable. Declare a pointer that points to \texttt{ted} and use the pointer to display \texttt{ted}'s value.
+\end{minipage} \\
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		double * p = &ted;
+		cout << *p << endl;
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 10. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose \texttt{treacle} is an array of 10 \texttt{floats}. Declare a pointer that points to the first element of \texttt{treacle} and use the pointer to display the first and last elements of the array. 
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		float * f = treacle;
+		cout << "first element: " << *f << endl
+		     << "second element: " << *(f + 9) << endl;
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 11. 
+\begin{minipage}[t]{11.5 cm}
+	Write a code fragment that asks the user to enter a positive integer and then creates a dynamic array of that many \texttt{ints}.
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		cout << "enter a positive integer: ";
+		int n; 
+		cin >> n;
+		int fuzzy[n];
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 12. 
+\begin{minipage}[t]{11.5 cm}
+	Is the following valid code? If so, what does it print? \\[.1 cm]
+\verb+cout << (int+ *\verb+) "Home of the jolly bytes";+ \\[.1cm]
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Yes, this is valid code. When you feed a string into the \texttt{cout} object, you are actually giving \texttt{cout} the memory address of the first character in the string. Since the type cast works for a pointer which points to the address of the first character, it must also work in the same way as the address of the first character. The code prints the memory location of the first character in the string. }
+\end{minipage} 
+\\[.2cm]
+
+\noindent 13. 
+\begin{minipage}[t]{11.5 cm}
+	Write a code fragment that dynamically allocates a structure of the type described in Question 6 and then reads a value for the kind member of the structure. 
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		fish * pt = new fish;
+		cout << "type of fish? ";
+		cin.get(pt->kind, 19);
+	\end{verbatim}
+\end{minipage} 
+\\[.2cm]
+
+\noindent 14. 
+\begin{minipage}[t]{11.5 cm}
+	Listing 4.6 illustrates a problem created by following numeric input with line-oriented string input. How would replacing this: \\[1ex]
+\verb+cin.getline(address,80);+ \\[1ex]
+with this: \\[1ex]
+\verb+cin >> address;+ \\[1ex]
+affect the working of this program?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape \texttt{cin} only accepts input after the return key is hit and reads the first token of data available. Thus, whatever the user typed, only the first word (or token) would be stored as the address. Additionally, there would be no error checking if the input was over 79 characters. } 
+\end{minipage} 
+	
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	a. part a \\
+	\phantom{a. } {\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	b. part b \\
+	\phantom{b. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	c. part c \\
+	\phantom{c. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	d. part d \\
+	\phantom{d. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[.2cm]

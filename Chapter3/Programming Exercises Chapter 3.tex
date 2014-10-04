@@ -1,0 +1,153 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\qquad \textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{\\ \phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+	{\end{minipage}}
+
+% Macros, all must be filled out
+\newcommand{\ChapNum}{3}
+
+\begin{document}
+
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Write a short program that asks for your height in integer inches 
+		and then converts your height to feet and inches. 
+		Have the Program use the underscore character to indicate where 
+		to type the response. Also, use a \texttt{const} symbolic 
+		constant to represent the conversion factor.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{2}
+		Write a short program that asks for your height in feet and inches
+		and your weight in pounds.
+		(Use three variables to store the information.)
+		Have the program report your body mass index (BMI).
+		To calculate the BMI, first convert your height in feet and
+		inches to your height in inches (1 foot = 12 inches). 
+		Then, convert your height in inches to your height in meters by
+		multiplying by 0.0254. 
+		Then, convert your weight in pounds into your mass in 
+		kilograms by diving by 2.2. 
+		Finally, compute your BMI by dividing your mass in kilograms by
+		the square of your height in meters. 
+		Use symbolic constants to represent the various conversion factors.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{3}
+		Write a program that asks the user to enter a latitude in degrees,
+		minutes, and seconds and that then displays the latitude in
+		decimal format.
+		There are 60 seconds of arc to a minute and 60 minutes of arc
+		to a degree;
+		represent these values with symbolic constants.
+		You should use a separate variable for each input value.
+		A sample run should look like this:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				Enter a latitude in degrees, minutes, and 
+					seconds: \\
+				First, enter the degrees: {\bf 37} \\
+				Next, enter the minutes of arc: {\bf 51} \\
+				Finally, enter the seconds of arc: {\bf 19} \\
+				37 degrees, 51 minutes, 19 seconds = 37.8553 degrees
+			\end{tabbing}
+		}
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{4}
+		Write a program that asks the user to enter the number of seconds
+		as an integer value (use type \textbf{long}) and that then
+		displays the equivalent time in days, hours, minutes, and seconds. 
+		Use symbolic constants to represent the number of hours in the day,
+		the number of minutes in an hour, and the number of seconds in
+		a minute. 
+		The output should look like this:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				Enter the number of seconds: {\bf 31600000} \\
+				31600000 seconds = 365 days, 46 minutes, 40 seconds
+			\end{tabbing}
+		}
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{5}
+		Write a program that asks how many miles you have driven and how
+		many gallons of gasoline you have used and then reports the
+		miles per gallon your car has gotten. 
+		Or, if you prefer, the program can request distance in kilometers
+		and petrol in liters and then report the result European style,
+		in liters per 100 km.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{6}
+		Write a program that asks you to enter an automobile gasoline
+		consumption figure in the European style (liters per 100
+		kilometers) and converts to the U.S. style of miles per 
+		gallon.
+		Note that in addition to using different units of measurement,
+		the U.S. approach (distance / fuel) is the inverse of the 
+		European approach (fuel / distance).
+		Note that 100 kilometers is 62.14 miles, and 1 gallon is 
+		3.875 liters.
+		Thus, 19 mpg is about 12.4 1/100 km, and 27 mpg is 
+		8.7 1/100 km.
+	\end{cpart}
+	\vspace{2ex}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+
+
+{\ttfamily
+	\begin{tabbing}
+		\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+	\end{tabbing}
+}
+
+
+
+
+
+
+
+
+
+
+

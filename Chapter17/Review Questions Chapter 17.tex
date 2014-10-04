@@ -1,0 +1,430 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 17: Input, Output, and Files \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\phantom{\quad} 
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What role does the \texttt{iostream} file play in C\raisebox{.15ex}{++} I/O?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The \ttt{iostream} library contains classes with which we
+		manage input and output streams.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Why does typing a number such as 121 as input require a program to make a conversion?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		Typing 121 (and hitting enter) sends three bytes
+		(corresponding to 1, 2, and 1) in succession to the program. 
+		Depending on how we choose to store the input, a conversion 
+		must be made.
+		For example, storing 121 as an \ttt{int} requires a different
+		byte sequence (as well as the number of bytes required) than
+		storing it as a \ttt{double}.
+		Of course, storing it as a string of \ttt{char} values
+		requires the same conversion.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	What's the difference between the standard output and the standard error?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The standard output can be redirected to somewhere other
+		than the moniter. 
+		The standard error cannot be redirected and will always
+		output text to the moniter. 
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Why is \texttt{cout} able to display various C\raisebox{.15ex}{++} types without being provided explicit instructions for each type?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		I'm somewhat confused as to this question.
+		\ttt{cout} uses template specializations to deal with 
+		various types, which are explicit instructions.
+		If anything, output with cout may be in binary, 
+		as an \ttt{int}, as an array of \ttt{char}, or as a floating
+		point number.
+		If any sort of type can be converted into these
+		basic underlying types, we can display it with \ttt{cout}
+		by making the conversion and using the explicit
+		instructions for displaying that basic type.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	What feature of the output method definitions allows you to concatenate output?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The idea that \ttt{cout} and other \ttt{ostream} classes
+		return a reference to itself when used with the extraction
+		operator allows us to concatenate output.
+	} 
+\end{minipage} 
+\newpage
+
+\phantom{\quad} 
+\vfill
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Write a program that requests an integer and then displays it in decimal, octal, and hexadecimal forms. Display each form on the same line, in fields that are 15 characters wide, and use the C\raisebox{.15ex}{++} number base prefixes. 
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	{\ttfamily
+		\begin{tabbing}
+			\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+			\#include <iomanip> \\
+			\#include <iostream> \\
+			\\
+			int main() \\
+			\{
+			\+ \\
+				using namespace std; \\
+				cout << "Enter an integer: "; \\
+				int x; \\
+				cin >> x; \\
+				cout << setw(15) << "decimal" \\
+				\phantom{cout }<< setw(15) << "octal" \\
+				\phantom{cout }<< setw(15) << "hexadecimal" << endl; \\
+				cout << setw(15) << showbase << x \\
+				\phantom{cout }<< setw(15) << oct << x \\
+				\phantom{cout }<< setw(15) << hex << x << endl; \\
+				return 0; \\
+			\< \}
+		\end{tabbing}
+	}
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}
+\vfill
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Write a program that requests the following information and that formats it as shown: \\
+\verb+Enter your name: +\textbf{Billy Gruff}\\
+\verb+Enter your hourly wages: +\textbf{12}\\
+\verb+Enter number of hours worked: +\textbf{7.5}\\
+\verb+First format:+ \\
+\phantom{\texttt{Enter number of hour}}\verb+Billy Gruff: $    12.00: 7.5+
+\verb+Second format:+\\
+\verb+Billy Gruff+\phantom{texttt{at of hours worked}}\verb+: $12.00    :7.5+
+\\[1ex]
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Here's the program:}
+	{\ttfamily
+		\begin{tabbing}
+			\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+			\#include<iomanip> \\
+			\#include<iostream> \\
+			\\
+			int main() \\
+			\{
+			\+ \\
+				using namespace std; \\
+				string name; \\
+				double wages, hours; \\
+				cout << "Enter your name: "; \\
+				cin >> name; \\
+				cout << "Enter your hourly wages: "; \\
+				cin >> wages; \\
+				cout << "Enter number of hours worked: "; \\
+				cin >> hours; \\
+				cout << "First format:" << endl; \\
+				cout << right << setw(30) << name << ": \$"; \\
+				cout << setw(10) << fixed << setprecision(2) << wages; \\
+				cout << ":" << setw(3) << setprecision(1) << hours << endl; \\
+				cout << "Second format:" << endl; \\
+				cout << left << setw(30) << name << ": \$"; \\
+				cout << setprecision(2) << setw(10) << wages << ":"; \\
+				cout << setprecision(1) << setw(3) << hours; \\
+				return 0; \\
+			\< \}
+		\end{tabbing}
+	}
+ 
+\end{minipage} 
+\vfill
+\newpage
+
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the following program:
+	\begin{verbatim}
+		//rq17-8.cpp
+		#include <iostream>
+		
+		int main()
+		{
+		    using namespace std;
+		    char ch;
+		    int ct1 = 0;
+		
+		    cin >> ch;
+		    while (ch != 'q')
+		    {
+		        ct1++;
+		        cin >> ch;
+		    }
+		
+		    int ct2 = 0;
+		    cin.get(ch);
+		    while (ch != 'q')
+		    {
+		        ct2++;
+		        cin.get(ch)
+		    }
+		    cout << "ct1 = " << ct1 << "; ct2 = " << ct2 << "\n";
+		
+		    return 0;
+		}
+	\end{verbatim}
+	What does it print, given the following input: \\[1ex]
+	\verb+I see a q+{\small $<$Enter$>$} \\	
+	\verb+I see a q+{\small $<$Enter$>$} \\[1ex]
+	Here \textbf{$<$Enter$>$} signifies pressing the Enter key.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		It prints the following:
+	} 
+
+	{\ttfamily
+		ct1 = 5; ct2 = 9
+	}
+
+	This is because the extraction operator (\ttt{<<}) skips over 
+	whitespace and the \ttt{get()} method does not.
+\end{minipage} 
+\\[2ex]
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Both of the following statements read and discard characters up to and including the end of a line. In what way does the behavior of one differ from that of the other?
+	\begin{verbatim}
+		while (cin.get() != '\n')
+		    continue;
+		cin.ignore(80, '\n');
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The first method will eat a line of any length.
+		However, it won't stop at the EOF bit.
+		The second method will eat up to a maximum of 80 characters
+		or a newline character, whichever comes first.
+	} 
+\end{minipage} 
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+% Two parts 
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Three Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Four Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Five Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Six Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	part f \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

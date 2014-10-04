@@ -1,0 +1,202 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 11: Working with Classes \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\phantom{\quad}
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	Using a member function to overload the multiplication operator for the \texttt{Stonewt} class; have the operator multiply the data members by a type \texttt{double} value. Note that this will require carryover for the stone-pound representation. That is, twice 10 stone 8 pounds is 21 stone 2 pounds. 
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	} 
+	\begin{verbatim}
+	// prototype
+	Stonewt operator*(double x) const;
+
+	// definition
+	Stonewt Stonewt::operator*(double x) const
+	{
+	    double total_lbs = Lbs_per_stn*stn + lbs;
+	    return Stonewt(x * total_lbs);
+	}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	What are the differences between a friend function and a member function?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	When overloading operators, specifically a binary operator, using 
+	a member function requires that the first operand be
+	the object which invokes the function.
+	If you use a friend, however, you may overload the 
+	operator to accept something other than the invoking 
+	object as the first operand with the invoking object
+	as the second. 
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Does a nonmember function have to be a friend function
+	to access a class's members?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	If the nonmember function is to access the class's members
+	directly, then yes, it must be a friend function.
+	If the nonmember function is to access the class's members
+	indirectly (by invoking a member function, for example)
+	then no, it does not need to be a friend function.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Use a friend function to overload the multiplication operator for the \texttt{Stonewt} class; have the operator multiply the \texttt{double} value by the \texttt{Stone} value.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	}
+	\begin{verbatim}
+	// function prototype
+	friend Stonewt operator*(double x, const Stonewt & s);
+
+	// definition
+	Stonewt operator*(double x, const Stonewt & s)
+	{
+	    return s*x;
+	}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad} 
+\vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Which operators cannot be overloaded?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	We may not overload the following operators: \\
+	\verb+sizeof+ \\
+	\verb+.+ \\
+	\verb+.*+ \\
+	\verb+::+ \\
+	\verb+?:+ \\
+	\verb+typeid+\\
+	\verb+const_cast+\\
+	\verb+dynamic_cast+\\
+	\verb+reinterpret_cast+\\ 
+	\verb+static_cast+
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	What restriction applies to overloading the following operators? \texttt{=, (), [],} and \texttt{->}.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	We may only use member functions to overload those four
+	operators.
+	}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Define a conversion function for the \texttt{Vector} class that converts a \texttt{Vector} object to a type \texttt{double} value that represents the vector's magnitude.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See the following code:
+	}
+	\begin{verbatim}
+	// prototype
+	operator double() const;
+
+	// definition
+	Vector::operator double() const
+	{
+	    return mag;
+	}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\vfill

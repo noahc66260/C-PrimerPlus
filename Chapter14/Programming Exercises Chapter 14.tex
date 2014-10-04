@@ -1,0 +1,477 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx, setspace}
+% the setspace package allows us use of the 
+% spacing environment (\begin{spacing}{second arg}) where
+% second arg is a number to multiply to the spacing factor.
+% use 2 for double space, 1 for single space, etc.
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. }%
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+\newenvironment{cpartContinued}[2][\cwidth]
+	{%		
+		\\ %
+		\textbf{#2. (continued)}%
+		\\
+		\phantom{#2. }
+		\begin{minipage}[t]{#1}%
+		\setlength{\parindent}{0pt}%
+		\setlength{\parskip}{2ex}%
+	}
+	{%
+		\end{minipage}%
+	}
+
+
+% set paragraph spacing like that in the book
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+
+% these new commands will make typing different formats easier.
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+\newcommand{\tbs}{\textbackslash}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{14}
+
+\begin{document}
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		The \ttt{Wine} class has a \ttt{string} class object member 
+		(see Chapter 4) that holds the name of a wine and a 
+		\ttt{Pair} object (as discussed in this chapter) of 
+		\ttt{valarray<int>} objects (as discussed in this chapter).
+		The first member of each \ttt{Pair} object holds the 
+		vintage years, and the second ember holds the number of
+		bottles owned for the corresponding particular vintage
+		year.
+		For example, the first \ttt{valarray} object of the \ttt{Pair}
+		object might hold the years 1988, 1992, 1996, and the second
+		\ttt{valarray} object might hold the bottle counts 24, 48, 
+		and 144. 
+		It may be convenient for \ttt{Wine} to have an \ttt{int}
+		member that stores the number of years. 
+		Also, some \ttt{typedef}s might be useful to simplify the
+		coding. 
+
+		{\ttfamily
+			typedef std::valarray<int> ArrayInt; \\
+			typedef Pair<ArrayInt, ArrayInt> PairArray;
+		}
+
+		Thus the \ttt{PairArray} type represents the type
+		\ttt{Pair<std::valarray<int>, std::valarray<int> >}.
+		Implement the \ttt{Wine} class by using containment.
+		The class hould have a default constructor and
+		at least the following constructors: 
+
+		{ \ttfamily
+			// initialize label to 1, number of years to y,  \\
+			// vintage years to yr[], bottles to bot[] \\
+			Wine(const char * l, int y, const int yr[], const int bot[]); \\
+			// initialize label to l, number of yeras to y, \\
+			// create array objects of length y \\
+			Wine(const char * l, int y); 
+		}
+
+		The \ttt{Wine} class should have a method \ttt{GetBottles()}
+		that, given a \ttt{Wine} object with \ttt{y} years, 
+		prompts the user to enter the corresponding number of vintage
+		years and bottle counts.
+		A method \ttt{Label()} should return a reference to the wine
+		name. 
+		A method \ttt{sum()} should return the total number of
+		bottles in the second \ttt{valarray<int>} object in the
+		\ttt{Pair} object.
+
+		The program should prompt the user to enter a wine name,
+		the number of elements of the array, and the year and bottle
+		count information for each array element. 
+		The program should use this data to construct a \ttt{Wine}
+		object and then display the information stored in the
+		object.
+	\end{cpart}
+	\newpage
+	\begin{cpartContinued}{1}
+		For guidance, here's a sample test program:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\hspace{5cm}\=\hspace{4cm}\= \\
+				// pe14-1.cpp -- using Wine class with containment \\
+				\#include <iostream> \\
+				\#include "winec.h" \\
+				\\
+				int main (void) \\
+				\{
+				\+ \\
+					using std::cin; \\
+					using std::cout; \\
+					using std::endl; \\
+					\\
+					cout << "Enter name of wine: "; \\
+					char lab[50]; \\
+					cin.getline(lab, 50); \\
+					cout << "Enter number of years: "; \\
+					int yrs; \\
+					cin >> yrs; \\
+					\\
+					Wine holding(lab, yrs); \> 
+						// store label, year, give arrays yrs elements \\
+					holding.GetBottles(); \>
+						// solicit input for year, bottle count \\
+					holding.Show(); \> 
+						// display object contents \\
+					\\
+					const int YRS = 3; \\
+					int y[YRS] = {1993, 1995, 1998}; \\
+					int b[YRS] = {48, 60, 72}; \\
+					// create new object, initialize using data in arrays 
+						y and b \\
+					Wine more("Gushing Grape Red", YRS, y, b); \\
+					more.Show(); \\
+					cout << "Total bottles for " << more.Label() \> \> 
+						// use Label() method \\
+					\phantom{cout} << ": " << more.sum() << endl; \> \> 
+						// use sum() method \\
+					cout << "Bye\tbs n"; \\
+					return 0; \\
+				\< \}
+			\end{tabbing}
+		}
+	\end{cpartContinued} 
+	\newpage
+	\begin{cpartContinued}{1}
+		And here's some sample output:
+
+		{\ttfamily
+			\begin{tabbing}
+				\hspace{1.8 cm}\=\hspace{2cm}\=\hspace{4cm}\= \\
+				Enter name of wine:\ttb{ Gully Wash} \\
+				Enter number of years:\ttb{ 4} \\
+				Enter Gully WAsh data for 4 year(s): \\
+				Enter year:\ttb{ 1988} \\
+				Enter bottles for that year:\ttb{ 42} \\
+				Enter year:\ttb{ 1994} \\
+				Enter bottles for that year:\ttb{ 58} \\
+				Enter year:\ttb{ 1998} \\
+				Enter bottles for that year:\ttb{ 122} \\
+				Enter year:\ttb{ 2001} \\
+				Enter bottles for that year:\ttb{ 144} \\
+				Wine: Gully Wash \\
+					\> Year \> Bottles \\
+					\> 1988 \> 42 \\
+					\> 1994 \> 58 \\
+					\> 1998 \> 122 \\
+					\> 2001 \> 144 \\
+				Wine: Gusing Grape Red \\
+					\> Year \> Bottles \\
+					\> 1993 \> 48 \\
+					\> 1995 \> 60 \\
+					\> 1998 \> 72 \\
+				Total bottles for Gushing Grape Red: 180 \\
+				Bye
+			\end{tabbing}
+		}
+	\end{cpartContinued}
+
+	\begin{cpart}{2}
+		This exercise is the same as Programming Exercise 1, except that
+		you should use private inheritance instead of containment.
+		Again, a few \ttt{typedef}s might prove handy.
+		Also, you might contemplate the meaning of statements
+		such as the following: 
+
+		{\ttfamily 
+			PairArray::operator=(PairArray(ArrayInt(), ArrayInt())); \\
+			cout << (const string \&)(*this);
+		}
+
+		The class should work with the same test program as shown in
+		Programming Exercise 1.
+	\end{cpart}
+
+	\begin{cpart}{3}
+		Define a \ttt{QueueTp} template.
+		Test it by creating a queue of pointers-to-\ttt{Worker}
+		(as defined in Listing 14.10) and using the queue in a program
+		similar to that in Listing 14.12.
+	\end{cpart}
+
+	\begin{cpart}{4}
+		A \ttt{Person} class holds the first name and the last name of
+		a person.
+		In addition to its constructors, it has a \ttt{Show()} method
+		that displays both names.
+		A \ttt{Gunslinger} class derives virtually from the \ttt{Person}
+		class.
+		It has a \ttt{Draw()} member that returns a type \ttt{double}
+		value representing a gunslinger's draw time.
+		The class also has an \ttt{int} member representing the
+		number of notches on a gunslinger's gun.
+		Finally, it has a \ttt{Show()} function taht displays 	
+		all this information.
+
+		A \ttt{PokerPlayer} class derives virtually from the
+		\ttt{Person} class.
+		It has a \ttt{Draw()} member that returns a random number
+		in the range 1 through 52, representing a card value.
+		(Optionally, you could define a \ttt{Card} class with 
+		a suit and face value members and use a \ttt{Card} return 
+		value for \ttt{Draw()}.)
+		The \ttt{PokerPlayer} class uses the \ttt{Person} \ttt{show()}
+		function.
+		The \ttt{BadDude} class derives publically from the
+		\ttt{Gunslinger} and \ttt{PokerPlayer} classes.
+		It has a \ttt{Gdraw()} member that returns a bad dude's 
+		draw time and a \ttt{Cdraw()} member that returns the
+		next card drawn.
+		It has an appropriate \ttt{Show()} function.
+		Define all these classes and methods, along with any other
+		necessary methods (such as methods for setting object values)
+		and test them in a simple program similar to that in Listing
+		14.12.
+	\end{cpart}
+
+	\begin{cpart}{5}
+		Here are some class declarations:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\hspace{10ex}\=\hspace{8ex}\hspace{8ex}\= \\
+				// emph.h -- header file for abstr\_emp class and children \\
+				\\
+				\#include <iostream> \\
+				\#inlcude <string> \\
+				\\
+				class abstr\_emp \\
+				\{
+				\+ \\
+				\< private: \\
+					std::string fname; \> \> // abstr\_emp's first name \\
+					std::string lname; \> \> // abstr\_emp's last name \\
+					std::string job; \\
+				\< public: \\
+					abstr\_emp(); \\
+					abstr\_emp(const std::string \& fn, const std::string \&
+						ln, \\
+					\phantom{abstr\_emp(}const std::string & j); \\
+					virtual void ShowAll() const;   
+						// labels and shows all data \\
+					virtual void SetAll();     // prompts user for values \\
+					friend std::ostream \& operator<<(std::ostream \&
+						os, const abstr\_emp \& e); \\
+					// just displays first and last name \\
+					virtual $\sim$abstr\_emp() = 0;    // virtual base class \\
+				\< \}; \\
+				\- \\
+				class employee : public abstr\_emp \\
+				\{
+				\+ \\
+				\< public: \\
+					employee(); \\
+					employee(const std::string \& fn, const std::string
+						\& ln, \\
+					\phantom{employee(}const std::string & j); \\
+					virtual void ShowAll() const; \\
+					virtual void SetAll(); \\
+				\< \}; \\
+				\- \\
+				class manager: virtual public abstr\_emp \\
+				\{
+				\+ \\
+				\< private: \\
+					int inchargeof; \hspace{10ex} 
+						// number of abstr\_emps managed \\
+				\< protedted: \\
+					int InChargeOf() const \{ return inchargeof; \}
+						//output \\
+					int \& InChargeOf()\{ return inchargeof; \} 
+						// input \\
+				\< public: \\
+					manager(); \\
+					manager(const std::string \& fn, const std::string \& ln, \\
+					\phantom{manager(}const std::string \& j, int ico = 0); \\
+					manager(const abstr\_emp \& e, int ico); \\
+					manager(const manager \& m); \\
+					virtual void ShowAll() const; \\
+					virtual void SetAll(); \\
+				\< \}; \\
+			\end{tabbing}
+		}
+	\end{cpart}
+	\newpage
+	\begin{cpartContinued}{5}
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\hspace{10ex}\=\hspace{8ex}\hspace{8ex}\= \\
+				class fink: virtual public abstr\_emp \\
+				\{
+				\+ \\
+				\< private: \\
+					std::string reportsto; \hspace{8ex} // to whom fink reports \\
+				\< protected: \\
+					const std::string ReportsTo() const \{ return reportsto; \} \\
+					std::string \& ReportsTo()\{ return reportsto; \} \\
+				\< public: \\
+					fink(); \\
+					fink(const std::string \& fn, const std::string \& ln, \\
+					\phantom{fink(}const std::string \& j, const std::string
+						\& rpo); \\
+					fink(const abstr\_emp \& e, const std::string \& rpo); \\
+					fink(const fnk \& e); \\
+					virtual void ShowAll() const; \\
+					virtual void SetAll(); \\
+				\< \}; \\
+				\- \\
+				class highfink: public manager, public fink // management fink \\
+				\{
+				\+ \\
+				\< public: \\
+					highfink(); \\
+					highfink(const std::string \& fn, const std:: string \& 
+						ln, \\
+					\phantom{highfink(}const std::string \& j, const
+						std::string \& rpo, \\
+					\phantom{highfink(}int ico); \\
+					highfink(const abstr\_emp \& e, const std::string \& rpo, 
+						int ico); \\
+					highfink(const fink \& f, int ico); \\
+					highfink(const manager \& m, const std::string \& rop); \\
+					highfink(const highfink \& h); \\
+					virtual void ShowAll() const; \\
+					virtual void SetAll(); \\
+				\< \}; 
+			\end{tabbing}
+		}
+		Note that the class heirarchy uses MI with a virtual base class,
+		so keep in mind the special rules for constructor initialization
+		lists for that case.
+		Also note the presence of some protected-access methods.
+		The simplifies the code for some of the \ttt{highfink}
+		methods.
+		(Note, for example, that if \ttt{highfink::ShowAll()} simply
+		calls \ttt{fink::ShowAll()} and \ttt{manager::ShowAll()}, it
+		winds up calling \ttt{abstr\_emp::ShowAll()} twice.)
+		Provide teh class method implementations and test classes in 
+		a program.
+		Here is a minimal test program: 
+	\end{cpartContinued}
+	\newpage
+	\begin{cpartContinued}{5}
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				// pe14-5.cpp \\
+				// useemp1.cpp -- using the abstr\_emp classes \\
+				\\
+				\#include <iostream> \\
+				using namespace std; \\
+				\#include "emp.h" \\
+				\\
+				int main(void) \\
+				\{
+				\+ \\
+					employee em("Trip", "Harris", "Thumper"); \\
+					cout << em << endl; \\
+					em.ShowAll(); \\
+					\\
+					manager ma("Amorphia", "Spindragon", "Nuancer", 5); \\
+					cout << ma << endl; \\
+					ma.ShowAll(); \\
+					\\
+					fink fi("Matt", "Oggs", "Oiler", "Juno Barr"); \\
+					cout << fi << endl; \\
+					fi.ShowAll(); \\
+					highfink hf(ma, "Curly Kew"); // recruitment? \\
+					hf.ShowAll(); \\
+					cout << "Press a key for next phrase:\tbs n"; \\
+					cin.get(); \\
+					highfink hf2; \\
+					hf2.SetAll(); \\
+					\\
+					cout << "Using an abstr\_emp * pointer:\tbs n"; \\
+					abstr\_emp * tri[4] = {\&em, \&fi, \&hf, \&hf2}; \\
+					for (int i = 0; i < 4; i++) \\
+					\> tri[i]->ShowAll(); \\
+					\\
+					return 0; \\
+				\< \}
+			\end{tabbing}
+		}		
+
+		Why is no assignment operator define? 
+
+		Why are \ttt{ShowAll()} and \ttt{SetAll()} virtual?
+
+		Why is \ttt{abstr\_emp} a virtual base class? 
+
+		Why does the \ttt{highfink} class have no data section? 
+
+		Why is only one version of the \ttt{operator<<()} needed?
+
+		What would happen if the end of the program were replaced
+			this code?
+
+		{\ttfamily
+			abstr\_emp tri[4] = \{em, fi, hf, hf2\}; \\
+			for(int i = 0; i < 4; i++) \\
+			\phantom{for(}tri[i].ShowAll();
+		}
+
+	\end{cpartContinued}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+use \hspace{...} if you prefer
+
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+			\end{tabbing}
+		}
+
+
+
+
+
+
+
+
+
+
+

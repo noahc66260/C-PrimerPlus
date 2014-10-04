@@ -1,0 +1,486 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 13: Class Inheritance \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What does a derived class inherit from a base class?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	We inherit all private, public, and protected class member functions
+	and variables. 
+	However, the derived class does not inherit any constructors, 
+	destructors, assignment operators, and friend functions of the
+	base class
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	What doesn't a derived class inherit from a base class?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	See #1
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose the return type for the \texttt{baseDMA::operator=()} function were defined as \texttt{void} instead of \texttt{baseDMA \&}. What effect, if any, would that have? What if the return type were \texttt{baseDMA} instead of \texttt{baseDMA \&}?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	If the return type were void, then statements such as
+	}
+	\begin{align*}
+		&\texttt{baseDMA b1;} \\
+		&\texttt{baseDMA b2;} \\
+		&\texttt{baseDMA b3;} \\
+		&\texttt{b1 = b2 = b3;}
+	\end{align*}
+	would not be possible.
+	Since the assignment operator operates from right to left,
+	the last statement is setting the value of \verb+b1+ to 
+	\verb+b2 = b3+, which has a return value of void. 
+	If the return type was an object rather than a reference to 
+	an object, then the copy constructor would be invoked to
+	create the object returned. 
+	This makes the program run a bit slower, but it is otherwise
+	harmless unless \verb+baseDMA+ uses dynamic memory allocation
+	and a copy constructor is not explicitly defined to do deep copying.
+	However, the user must keep in mind that the object returned is
+	not the object used to invoke the overloaded equality operator,
+	so passing the returned object as a reference in a function which 
+	modifies it will leave the original object unchanged. 
+\end{minipage} 
+\\[2ex]
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	In what order are class constructors and class destructors called when a derived-class object is created and deleted?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	When the constructor is invoked for the derived class, the base 
+	class constructor is is called first, and  then the derived 
+	class constructor is called. 
+	When the destructor is invoked for the derived class, the derived
+	class destructor is called first and then the base class destructor
+	is called. 
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	If a derived class doesn't add any data members to the base class, does the derived class require constructors?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	If the defined class does not necessarily require an explicit 
+	constructor, because a default is provided in the event that one
+	is not defined. 
+	However, the default derived class constructor is a do nothing
+	constructor that calls the default constructor for the base
+	class. 
+	If this is not what the user wants, it is best to specify
+	a constructor for the derived class explicitly, because it
+	gives the user control as to which constructor is called for
+	the base class as well, even if the derived class constructor is
+	do nothing.
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose a base class and a derived class both define a method with the same name and a derived-class object invokes the method. What method is called?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	There are two scenarios:
+	\begin{enumerate}
+		\item The methods are not virtual: \\
+			If a pointer of type <base class> is pointing to the 
+			derived class, invoking the method through the pointer will
+			invoke the base class method. 
+			If a reference of type <base class> is assigned to the
+			derived class, the invoking method through the reference will
+			invoke the base class method.
+		\item The methods are vitual
+			If a pointer of type <base class> is pointing to the 
+			derived class, invoking the method through the pointer will
+			invoke the derived class method. 
+			If a reference of type <base class> is assigned to the
+			derived class, the invoking method through the reference will
+			invoke the derived class method.
+	\end{enumerate}
+	
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	When should a derived class define an assignment operator?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	An assignment operator should be explicitly defined in the case
+	that the derived class object has a dynamically allocated object
+	that was not inherited from the base class.
+	The overloaded operator should do deep copying.
+	It is also important to note that in this case the copy constructor
+	should be explicitly defined as well.
+	}  
+\end{minipage} 
+\\[2ex]
+
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Can you assign the address of an object of a derived class to a pointer to the base class? Can you assign the address of an object of a base class to a pointer to the derived class?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Assigning the address of a derived class to a pointer to the
+	base class is called upcasting and it may be done without an 
+	explicit type cast.
+	However, the opposite is called downcasting and can only be done
+	with an explicit type cast. 
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Can you assign an object of a derived class to an object of the base class? Can you assign an object of a base class to an object of the derived class?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Because of implicit upcasting, you can assign an object of a
+	derived class to an object of the base class. 
+	Without an explicit type cast or conversion constructor, 
+	you cannot assign an object of the derived class to an object
+	of the base class.
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 10. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you define a function that takes a reference to a base-class object as an argument. Why can this function also use a derived-class object as an argument?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Yes, this is permissible because upcasting is implicit. 
+	Since the derived class inherits member values and functions
+	from the base class, any derived class methods will work
+	when performed on the base class.
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 11. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose you define a function that takes a base-class object as an argument (that is, the function passes a base-class object by value). Why can this function also use a derived-class object as an argument?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	When a function's formal parameter is an object, the copy constructor
+	is used to create a temporary object which is used in the body
+	of the function. 
+	Because of implicit upcasting, the copy constructor for the
+	base class object may take a derived class object as its actual
+	argument without any problems. 
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 12. 
+\begin{minipage}[t]{11.5 cm}
+	Why is it usually better to pass objects by reference than by value?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Passing by reference obviates the need to create a temporary
+	object with the copy constructor and thus makes the program faster.
+	} 
+\end{minipage} 
+\\[2ex]
+
+\noindent 13. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose \texttt{Corporation} is a base class and \texttt{PublicCorporation} is a derived class. Also suppose that each class defines a \texttt{head()} member function, that \texttt{ph} is a pointer to the \texttt{Corporation} type, and that \texttt{ph} is assigned the address of a \texttt{PublicCorporation} object. How is \verb+ph->head()+ interpreted if the base class defines \texttt{head()} as a 
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	Regular nonvirtual method \\[1ex]
+	{\slshape 
+	The program runs \verb+Corporation::head()+.
+	}  \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	Virtual method \\[1ex]
+	{\slshape 
+	The program runs \verb+PublicCorporation::head()+.
+	} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent 14. 
+\begin{minipage}[t]{11.5 cm}
+	What's wrong, if anything, with the following code?
+	\begin{verbatim}
+		class Kitchen
+		{
+		private:
+		    double kit_sq_ft;
+		public:
+		    Kitchen() {kit_sq_ft = 0.0; }
+		    virtual double area() const { return kit_sq_ft * kit_sq_ft; }
+		};
+		class House : public Kitchen
+		{
+		private:
+		    double all_sq_ft;
+		public:
+		    House() {all_sq_ft += kit_sq_ft;}
+		    double area(const char *s) const { cout << s; return all_sq_ft; }
+		};
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+	Several things are wrong with this code.
+	\begin{enumerate}
+		\item 
+		We have  a base class and a derived class, but the
+		derived class relationship with the base class does not follow
+		an \textbf{is-a} relationship.
+
+		\item
+		The variable \verb+all_sq_ft+ is never initialized, so
+		we are in store for unpleasant surprises when we attempt to
+		print or use the value.
+
+		\item
+		There is no point to making \verb+area()+ a virtual
+		function if the \verb+area()+ function in the derived class
+		has a different function signiature. 
+
+		\item
+		We need to include the \verb+iostream+ library and include
+		a using declaration so that we may use \verb+cout+ in the
+		\verb+area()+ function of the \verb+House+ object.
+
+		\item	
+		The base class should have a virtual destructor,
+		which it does not.
+	\end{enumerate}
+	}  
+\end{minipage} 
+	
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+% Two parts 
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape 
+	The answer.
+	}  \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape 
+	The answer.
+	} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Three Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Four Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Five Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Six Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	part f \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

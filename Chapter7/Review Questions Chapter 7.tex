@@ -1,0 +1,268 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 7: Functions: C++'s Programming Modules \\
+	Review Questions} \normalsize \vspace{.5 cm}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What are the three steps in using a function?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	\begin{enumerate}
+		\item {\slshape Create the function prototype} 
+		\item {\slshape Create the function definition} 
+		\item {\slshape Make a call to the function} 
+	\end{enumerate}
+\end{minipage} 
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Construct function prototypes that match the following descriptions:
+\end{minipage} \\
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{igor()} takes no arguments and has no return value \\
+	\verb+ void igor(void);+
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{tofu()} takes an \texttt{int} argument and returns a \texttt{float}\\
+	\verb+ float tofu(int x);+
+	{} % space for comments to be included
+\end{minipage}\\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{mpg()} takes two type \texttt{double} arguments and returns a \texttt{double} \\
+	\verb+ double mpg(double x, double y);+
+	{} % space for comments to be included
+\end{minipage}\\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{summation()} takes the name of a \texttt{long} array and an array size as values and returns a \texttt{long} value. \\
+	\verb+ long summation(const long arr[], int size); +
+	{} % space for comments to be included
+\end{minipage}\\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{doctor()} takes a string argument (the string is not to be modified) and returns a \texttt{double} value. \\
+	\verb+ double doctor(const string x);+
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{ofcourse()} takes a \texttt{boss} structure as an argument and returns nothing.\\
+	\verb+ void ofcourse(boss x);+
+\end{minipage}\\[1ex]
+\phantom{1. }g.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{plot()} takes a pointer to a \texttt{map} structure as an argument and returns a string. \\
+	\verb+ string plot(const map * pst);+
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function that takes three arguments: the name of an \texttt{int} array, the array size, and an \texttt{int} value. Have the function set each element of the array to the \texttt{int} value. 
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		void setArray(int arr[], int size, int value)
+		{
+		    for (int i = 0; i < size; i++)
+		        arr[i] = value;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+\newpage
+
+\vfill
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function that takes three arguments: a pointer to the first element of a range in an array, a pointer to the element following the end of a range in the array, and an \texttt{int} value. Have the function set each element of the array to the \texttt{int} value. 
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		void setArray(int * start, int * end, int value)
+		{
+		    for (int i = 0; i < (end - start) - 1; i++)
+		        arr[i] = value;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function that takes a \verb+double+ array name and an array size as arguments and returns the largest value in that array. Note that this function shouldn't alter the contents of the array.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		double max(const double arr[], int size)
+		{
+		    double largest = arr[0];
+		    for (int i = 1; i < size; i++)
+		        if (arr[i] > largest)
+		            largest = arr[i];
+		    return largest;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Why don't you use the \texttt{const} qualifier for function arguments that are one of the fundamental types?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape C++ passes arguments to functions by value, so the function does not alter the value of its actual arguments. Instead, it creates new variables and initializes them to the values of the actual arguments.}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	What are the three forms a C-style string can take in a C\raisebox{.15ex}{++} program?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	\begin{enumerate}
+		\item {\slshape As an array of \verb+char+}
+		\item {\slshape As a pointer to a \verb+char+}
+		\item {\slshape As a variable of type \verb+string+}  
+	\end{enumerate}
+\end{minipage} 
+\vfill
+\newpage
+
+\vfill
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function that has this prototype:
+	\begin{verbatim}
+		int replace(char * str, char c1, char c2);
+	\end{verbatim}
+	Have the function replace every occurrence of \texttt{c1} in the string \texttt{str} with \texttt{c2}, and have the function return the number of replacements it makes.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		int replace(char * str, char c1, char c2)
+		{
+		    int replacements = 0;
+		    for (int i = 0; i < strlen(str); i++)
+		    {
+		        if (str[i] == c1)
+		        {
+		            str[i] = c2;
+		            replacements++;
+		        }
+		    }
+		    return replacements;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	What does the expression *\verb+"pizza"+ mean? What about \verb+"taco"[2]+?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape \quad \verb+*"pizza"+ is \verb+'p'+. A string literal is actually the memory address of the first character, which in this case is \verb+'p'+. The dereferencing operator applied to a memory address returns the value stored at the memory address.
+
+	\quad \verb+"taco"[2]+ is \verb+'c'+. We know that a string literal is actually the memory address of the first character in the string. The array notation \verb+"taco"[2]+ is equivalent to \verb&*("taco" + 2)&. The quantity in the parentheses is the memory address of the character \verb+'c'+, so applying the dereferencing operator gets us the value stored at that address. } 
+\end{minipage} 
+\vfill
+
+\noindent 10. 
+\begin{minipage}[t]{11.5 cm}
+	C\raisebox{.15ex}{++} enables you to pass a structure by value, and it lets you pass the address of a structure. If \texttt{glitz} is a structure variable, how would you pass it by value? How would you pass its address? What are the trade-offs of the two approaches?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape \quad Passing \verb+glitz+ by value is similar to passing any fundamental type by value. For the formal parameter in the function prototype and definition, we would insert \verb+type x+ where \verb+type+ would be the name of the structure type. When calling the function, the actual argument would be \verb+glitz+.
+
+	\quad To pass \verb+glitz+ by value, we would have \verb+type * x+ as the formal parameter in the function, where \verb+type+ would be the structure type. As for the actual argument, we would use \verb+&glitz+.
+
+	\quad If we pass a structure by value, we risk wasting space and memory if the structure is large but our code writing is simpler.} 
+\end{minipage} 
+\vfill
+
+\noindent 11. 
+\begin{minipage}[t]{11.5 cm}
+	The function \texttt{judge()} has a type \texttt{int} return value. As an argument, it takes the address of a function. The function whose address is passed, in turn, takes a pointer to a \texttt{const char} as an argument and returns an \texttt{int}. Write the function prototype. 
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	\verb+ int judge(int (*pf)(const char * pc));+
+\end{minipage} 
+\vfill
+
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	a. part a \\
+	\phantom{a. } {\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	b. part b \\
+	\phantom{b. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	c. part c \\
+	\phantom{c. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\
+\phantom{1. }
+\begin{minipage}[t]{11.5 cm}
+	d. part d \\
+	\phantom{d. } {\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[.2cm]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[.2cm]

@@ -1,0 +1,208 @@
+\documentclass[10 pt]{amsart}
+
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+
+% For the cpart environment, although it would probably be better in the
+% future to implement this with a list environment.
+\newlength{\cgap}
+\settowidth{\cgap}{\qquad \textbf{x. }}
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+\newenvironment{cpart}[2][\cwidth]
+	{\\ \phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+	{\end{minipage}}
+
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\ttb}[1]{\pmb{\texttt{#1}}}
+% Macros, all must be filled out
+\newcommand{\ChapNum}{5}
+
+
+\begin{document}
+
+	\title
+	[Chapter \ChapNum]
+	{C++ Primer Plus, 5$^\text{th}$ Edition \\
+	Programming Exercises \\
+	Chapter \ChapNum}
+
+	\maketitle
+
+	\begin{cpart}{1}
+		Write a program that requests the user to enter two integers.
+		The program should then calculate and report the sum of all
+		the integers between and including the two integers.
+		At this point, assume that the smaller integer is entered first.
+		For example, if the user enters \ttt{2} and \ttt{9},
+		the program should report that the sum of all the integers
+		from 2 to 9 is 44.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{2}
+		Write a program that asks teh user to type in numbers.
+		After each entry, the program should report the cumulative sum
+		of teh entries to date.
+		The program should terminate when the user enters \ttb{0}.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{3}
+		Daphne invests \$100 at 10\% simple interest.
+		That is, every year, the investment earns 10\% of the original
+		investment, or \$10 each and every year: \vspace{2ex} \\
+		interest = 0.10 $\times$ original balance. \vspace{2ex} \\
+		At the same time, Cleo invests \$100 at 5\% compound interest.
+		That is, interest is 5\% of the current balance, including
+		previous additions of interest: \vspace{2ex} \\
+		interest = 0.05 $\times$ current balance \vspace{2ex} \\
+		Cleo earns 5\% of \$100 the first year, giving her \$105. 
+		The next year she earns 5\% of \$105, or \$5.25, and so on.
+		Write a program that finds how many years it takes for the value
+		of Cleo's investment to exceed the value of Daphne's investment
+		and then displays the value of both investments at the same 
+		time.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{4}
+		You sell the Book {\bf \emph{C++ for Fools}}. 
+		Write a program that has you enter a year's worth of monthly
+		sales (in terms of number of books, not of money).
+		The program should use a loop to prompt you by month, using an 
+		array of \verb+char *+ (or an array of \ttt{string} objects,
+		if you prefer) initialized to the month strings and storing
+		the input data in an array of \ttt{int}.
+		Then, the program should find the sum of the array contents and
+		report the total sales for the year.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{5}
+		Do Programming Exercise 4, but use a two-dimensional array to 
+		store input for 3 years of monthly sales.
+		Report the total sales for each individual year and for
+		the combined years.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{6}
+		Design a structure called \ttt{car} that holds the following
+		information about an automobile:
+		its make, as a string in a character array or in a \ttt{string}
+		object, and the year it ws build, as an integer.
+		Write a program that asks the user how many cars to catalog.
+		The program should then use \ttt{new} to create a dynamic array
+		of that many \ttt{car} structures.
+		Next, it should prompt the user to input the make (which 
+		might consist of more than one word) and year information for
+		each structure.
+		Note that this requires some care because it alternates reading
+		strings with numeric data (see Chapter 4).
+		Finally, it should display the contents of each structure.
+		A sample run should look something like the following:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				How many cars do you wish to catalog?\ttb{ 2} \\
+				Car \# 1: \\
+				Please enter the make:\ttb{ Hudson Hornet} \\
+				Please enter the year made:\ttb{ 1952} \\
+				Car \# 2: \\
+				Please enter the make:\ttb{ Kaiser} \\
+				Please enter the year made:\ttb{ 1951} \\
+				Here is your collection: \\
+				1952 Hudson HOrnet \\
+				1951 Kaiser
+			\end{tabbing}
+		}
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{7}
+		Write a program that uses an array of \ttt{char} and a loop 
+		to read one word at a time until the word \ttt{done} is entered.
+		The program should then report the number of words entered
+		(not counting \ttt{done}). 
+		A sample run could look like this:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				Enter words (to stop, type the word done): \\
+				\ttb{anteater birthday category dumpster}\\
+				\ttb{envy finagle geometry done for sure}\\
+				You entered a total of 7 words.
+			\end{tabbing}
+		}\vspace{2ex} \\
+		You should include the \ttt{cstring} header file and use the
+		\ttt{stringcmp()} function to make the comparison test. 
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{8}
+		Write a program that matches the description in Programming
+		Exercise 7, but use a \ttt{string} class object instead of
+		an array.
+		Include the \ttt{string} header file and use a relational
+		operator to make the comparison test.
+	\end{cpart}
+	\vspace{2ex}
+
+	\begin{cpart}{9}
+		Write a program using nested loops that asks the user to enter
+		a value for the number of rows to display.
+		It should then display that many rows of asterisks,
+		with one asterisk in the first row, two in the second row,
+		and so on.
+		For each row, the asterisks are preceded by the number of
+		periods needed to make all the rows display the total number
+		of characters equal to the number of rows.
+		A sample run would look like this:
+		{\ttfamily
+			\begin{tabbing}
+				\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+				Enter number of rows:\ttb{ 5}\\
+				....* \\
+				...** \\
+				..*** \\
+				.**** \\
+				*****
+			\end{tabbing}
+		}
+	\end{cpart}
+
+\end{document}
+
+regarding tabbing environments:
+\= (set tab)
+\> (advance to next tab stop)
+\<
+\+ (indent; move margin right)
+\- (unindent; move margin left)
+\'
+\`
+\\ (end of line; newline)
+\kill (ignore preceding text; use only for spacing)
+
+
+
+{\ttfamily
+	\begin{tabbing}
+		\phantom{\qquad}\=\phantom{\qquad}\=\phantom{\qquad}\= \\
+		
+	\end{tabbing}
+}
+
+
+
+
+
+
+
+
+
+
+

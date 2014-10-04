@@ -1,0 +1,271 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 8: Adventures in Functions \\
+	Review Questions} \normalsize \vspace{.5 cm}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	What kinds of functions are good candidates for inline status?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape Very short functions whose function bodies consist of a single statement.} 
+\end{minipage} 
+\vfill
+
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Suppose the \texttt{song()} function has this prototype:
+	\begin{verbatim}
+		void song(char * name, int times);
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	How would you modify the prototype so that the default value for \texttt{times} is \texttt{1}? \\[1ex]
+	{\slshape For the second argument in the function signature we would replace \verb+int times+ with \verb+int times = 1+.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	What changes would you make in the function definition? \\[1ex]
+	{\slshape We could make the same changes in the function definition as we would for the prototype to include a default value for the second argument. }\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	Can you provide a default value of \texttt{"0, My Papa"} for \texttt{name}? \\[1ex]
+	{\slshape Yes, provided that we also provide a default argument for \verb+times+. } \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Write overloaded versions of \texttt{iquote()}, a function that displays its argument enclosed in double quotation marks. Write three versions: one for an \texttt{int} argument, one for a \texttt{double} argument, and one for a \texttt{string} argument.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		include namespace std;
+
+		inline void iquote(int arg) {cout << "\"" << arg << "\"\n";}
+		inline void iquote(double arg) {cout << "\"" << arg << "\"\n";}
+		inline void iquote(string arg) {cout << "\"" << arg << "\"\n";}
+
+		int main(void)
+		{
+		    ...
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad} \vfill
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	The following is a structure template:
+	\begin{verbatim}
+		struct box
+		{
+		      char maker[40];
+		      float height;
+		      float width;
+		      float length;
+		      float volume;
+		};
+	\end{verbatim}
+\end{minipage} \\[3ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	Write a function that has a reference to a \texttt{box} structure as its formal argument and displays the value of each member. \\[1ex]
+	{\slshape I will list the function prototype followed by the definition:  }
+	\begin{verbatim}
+		void displayBox(const box & x);    // function prototype
+
+		void displayBox(const box & x)     // function definition
+		{
+		    using namespace std;
+		    cout << "Maker: "  << x.maker  << endl
+		         << "Height: " << x.height << endl
+		         << "Width: "  << x.width  << endl
+		         << "Length: " << x.length << endl
+		         << "Volume: " << x.volume << endl;
+		    return;
+		}
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[3ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	Write a function that has a reference to a \texttt{box} structure as its formal argument and sets the \texttt{volume} member to the product of the other three dimensions. \\[1ex]
+	{\slshape I will list the function prototype followed by the definition:  }\\
+	\begin{verbatim}
+		void setVolume(box & x);     // function prototype
+
+		void setVolume(box & x)      // function definition
+		{
+		    x.volume = x.height * x.width * x.length;
+		    return;
+		}
+	\end{verbatim}
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{\quad} \vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	The following are some desired effects. Indicate whether each can be accomplished with default arguments, function overloading, both, or neither. Provide appropriate prototypes.
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{mass(density, volume)} returns the mass of an object having a density of \texttt{density} and a volume of \texttt{volume}, whereas \texttt{mass(density)} returns the mass having a density of \texttt{density} and a volume of 1.0 cubic meters. All quantities are type \texttt{double}. \\[1ex]
+	{\slshape This could be accomplished with both:}
+	\begin{verbatim}
+		// default argument
+		double mass(double density, double volume = 1.0);
+
+		// function overloading
+		double mass(double density, double volume); 
+		double mass(double density);
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[3ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{repeat(10, "I'm OK")} displays the indicated string 10 times, and \texttt{repeat("But you're kind of stupid")} displays the indicated string 5 times. \\[1ex]
+	{\slshape This could be accomplished by function overloading:}
+	\begin{verbatim}
+		// function overloading
+		void repeat(int times, const char * str);
+		void repeat(const char * str);
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[3ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{average(3,6)} returns the \texttt{int} average of two \texttt{int} arguments, and \texttt{average(3.0, 6.0)} returns the \texttt{double} average of two \texttt{double} values. \\[1ex]
+	{\slshape This could be accomplished by function overloading:}
+	\begin{verbatim}
+		// function overloading
+		int average(int first, int second);
+		double average(double first, double second);
+	\end{verbatim}
+	{} % space for comments to be included
+\end{minipage} \\[3ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	\texttt{mangle("I'm glad to meet you")} returns the character \texttt{I} or a pointer to the string \texttt{"I'm mad to meet you"}, depending on whether you assign the return value to a \texttt{char} variable or to a \texttt{char *} variable. \\[1ex]
+	{\slshape This can't be accomplished with either.} \\
+	{} % space for comments to be included
+\end{minipage}
+\vfill
+\newpage
+
+\phantom{\quad} \vfill
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function template that returns the larger of its two arguments.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		// template prototype
+		template <typename Any>
+		Any larger(Any first, Any second);
+
+		// template definition
+		template <typename Any>
+		Any larger(Any first, Any second)
+		{
+		    return (first >= second) ? first : second;
+		}
+	\end{verbatim}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Given the template of Review Question 6 and the \texttt{box} structure of Review Question 4, provide a template specialization that takes two \texttt{box} arguments and returns the one with the larger volume. 
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape See the following code:}
+	\begin{verbatim}
+		// template specialization prototype
+		template <> 
+		const box & larger(const box & first, const box & second);
+
+		// template specialization definition
+		template <> 
+		const box & larger(const box & first, const box & second)
+		{
+		    if (first.volume > second.volume)
+		        return first;
+		    else 
+		        return second;
+		}
+	\end{verbatim} 
+\end{minipage} 
+\vfill
+
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer. You can also type code: \verb+cout << "Hello" << endl;+} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]

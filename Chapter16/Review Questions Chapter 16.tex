@@ -1,0 +1,459 @@
+\documentclass{amsart}
+
+\usepackage{amssymb,latexsym, verbatim}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+	\Large {\bfseries
+	\emph{C++ Primer Plus, $5^{\text{th}}$ Edition} by Stephen Prata \\
+	Chapter 16: The \texttt{string} Class and the Standard Template Library \\
+	Review Questions} \normalsize \vspace{5ex}
+\end{center}
+
+% Note: in order to really get the formatting I want, I need to create my own environment. It would be similar to the enumerate environment, but instead of enclosing the enumerator in parentheses, there would just be a period after it. For example, rather than (1), we would have 1. instead.
+
+\phantom{\quad}\vfill
+\noindent 1. 
+\begin{minipage}[t]{11.5 cm}
+	Consider the following class declaration:
+	\begin{verbatim}
+		class RQ1
+		{
+		private:
+		    char * st;     // points to C-style string
+		public:
+		    RQ1() { st = new char [1]; strcpy(st,""); }
+		    RQ1(const char * s)
+		    {st = new char [strlen(s) + 1]; strcpy(st,s); }
+		    RQ1(const RQ1 & rq)
+		    {st = new char [strlen(rq.st) + 1]; strcpy(st,rq.st); }
+		    ~RQ1() {delete [] st};
+		    RQ & operator=(const RQ & rq);
+		    // more stuff
+		};
+	\end{verbatim}
+	Convert this to a declaration that uses a \texttt{string} object instead. What methods no longer need explicit definitions?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		This is our class rewritten to use a \verb+string+ object.
+	\begin{verbatim}
+		class RQ1
+		{
+		private:
+		    string st;
+		public:
+		    RQ1() { st = ""; }
+		    RQ1(const char * s)
+		    {st = string(s); }
+		    RQ1(const RQ1 & rq)
+		    {st = rq.st; }
+		    ~RQ1() {}
+		    RQ & operator=(const RQ & rq)
+		    {st = rq.st; return *this;}
+		    // more stuff
+		};
+	\end{verbatim}
+	Barring the inconsistency regarding accessing the private member
+	of another \verb+RQ1+ object directly, we have the following 
+	results: 
+	\begin{enumerate}
+		\item
+			We do not need an explicit copy constructor.
+		\item
+			We do not need an explicit destructor
+		\item 
+			We do not need an explicit overloaded assignment operator
+	\end{enumerate}
+	However, since we explicitly define a constructor, we are
+	unable to use the default copy constructor, so to enable it
+	we must define it explicitly.
+	} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}\vfill
+\noindent 2. 
+\begin{minipage}[t]{11.5 cm}
+	Name at least two advantages \texttt{string} objects have over C-style strings in terms of ease-of-use.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{enumerate}
+			\item
+				We can change the size of a \verb+string+ object.
+			\item
+				We can use the assigment operator to assign string values.
+			\item
+				We can use the addition operator for easy concatenation 
+				of two strings.
+			\item 
+				We can use relational operators (\verb+==, <, <=, >, >=+)
+				on string objects for easy comparisons.
+			\item
+				The \verb+string+ class has member functions, such as 
+				\verb+size()+ which allows us to work with \verb+string+
+				objects in an intuitive way.
+		\end{enumerate}
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 3. 
+\begin{minipage}[t]{11.5 cm}
+	Write a function that takes a reference to a \texttt{string} object as an argument and that converts the \texttt{string} object to all uppercase.
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{verbatim}
+			string & ToUpper(string & s)
+			{
+			   transform(s.begin(), s.end(), s.begin(), toupper);
+			   return s;
+			}
+		\end{verbatim}
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 4. 
+\begin{minipage}[t]{11.5 cm}
+	Which of the following are not examples of correct usage (conceptually or syntactically) of \verb+auto_ptr+? (Assume that the needed header files have been included.)
+	\begin{verbatim}
+		auto_ptr<int> pia(new int[20]);
+		auto_ptr<string> (new string);
+		int rigue = 7;
+		auto_ptr<int> pr(&rigue);
+		auto_ptr dbl (new double);
+	\end{verbatim}
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{itemize}
+			\item
+				The first line of code is an incorrect usage because
+				the destructor for \verb+auto_ptr<>+ uses the \verb+delete+
+				command in its destructor, not \verb+delete []+.
+			\item
+				The fourth line of code is incorrect because when the destructor
+				to \verb+pr+ is invoked, it would apply the \verb+delete+ operator
+				to non-heap memory.
+			\item
+				The fifth line of code is incorrect because we must declare
+				a specialization of \verb+auto_ptr+ since it is a template class.
+		\end{itemize}
+	} 
+\end{minipage} 
+\vfill 
+\newpage
+
+\phantom{\quad}\vfill
+\noindent 5. 
+\begin{minipage}[t]{11.5 cm}
+	If you could make the mechanical equivalent of a stack that held golf clubs instead of numbers, why would it (conceptually) be a bad golf bag?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		It would be a bad golf bag because you would be unable to access
+		any given golf club easily. 
+		For example, if you have nine golf clubs and needed to get 
+		the \#3 club, firstly you would not know where in the stack
+		the club was unless you remember the order you placed all
+		of the clubs in the bag.
+		Secondly, to access the \#3 club, you would need to remove
+		each club placed onto the stack after the \#3 club to get to it.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 6. 
+\begin{minipage}[t]{11.5 cm}
+	Why would a \texttt{set} container be a poor choice for storing a hole-by-hole record of your golf scores?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		The best reason for why this would be a poor choice is that
+		a \verb+set+ object does not hold duplicate items.
+		If you were to get the same score on two holes, the
+		set would count them as equivalent (if the only thing stored
+		is the score).
+		Additionally, a \verb+set+ object automatically orders its 
+		elements by using the \verb+<+ operator.
+		If the only thing stored was the numeric score per hole,
+		you would be unable to tell which score corresponded to which
+		hole. 
+	}
+\end{minipage} 
+\vfill
+
+\noindent 7. 
+\begin{minipage}[t]{11.5 cm}
+	Because a pointer is an iterator, why didn't the STL designers simply use pointers instead of iterators?
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		Pointers are not appropriate for all situations.
+		In the case of an array, a pointer will work fine as it 
+		can be dereferenced, incremented, and random access is 
+		permissible. 
+		However, for some data structures, such as a linked list,
+		a binary tree, and a heap, pointers themselves
+		will not work the same way when incremented and 
+		may not allow random access.
+		However, an iterator can be made so that operators such 
+		as incrementation work in the same way for a linked list
+		as it does for an array.
+		In short, pointers are only appropriate for a subset of
+		data structures. 
+	} 
+\end{minipage} 
+\vfill
+\newpage
+
+\phantom{\quad}\vfill
+\noindent 8. 
+\begin{minipage}[t]{11.5 cm}
+	Why didn't the STL designers simply define a base iterator class, use inheritance to derive classes for the other iterator types, and express the algorithms in terms of those iterator classes?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		I suppose that to do so would be possible. 
+		However, because of the multitude of data structures, 
+		each of which requiring unique implementations of
+		the iterator concept, the iterator member functions
+		would have to be redefined for each iterator.
+		In this case, inheritance would be in name only
+		which defeats the purpose of inheritance.
+		With this in mind, using inheritance seems to complicate
+		the implementation of an iterator for a given class
+		without any sort of benefit.
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 9. 
+\begin{minipage}[t]{11.5 cm}
+	Give at least three examples of convenience advantages that a \texttt{vector} object has over an ordinary array.
+\end{minipage} \\[1ex]
+\phantom{2. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{enumerate}
+			\item
+				We can use STL functions with the \verb+vector<>+ class
+			\item
+				We can resize a \verb+vector<>+ object easily
+			\item
+				We can use iterators to initialize a \verb+vector<>+ object
+			\item
+				The \verb+vector<>+ class has member functions for
+				performing many operations.
+		\end{enumerate}
+	} 
+\end{minipage} 
+\vfill
+
+\noindent 10. 
+\begin{minipage}[t]{11.5 cm}
+	If Listing 16.7 were implemented with \texttt{list} instead of \texttt{vector}, what parts of the program would become invalid? Could the invalid part be fixed easily? If so, how?
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape 
+		\begin{enumerate}
+			\item
+				The STL sort requires a random access iterator, the 
+				\verb+list<>+ class only has bidirectional iterators, which
+				do not allow for random access.
+				However, this problem can be fixed by using the 
+				\verb+sort()+ member function of the \verb+list<>+ class.
+			\item
+				The \verb+random_shuffle()+ function requires
+				a random access iterator. 
+				To remedy this, the client program must provide a function
+				that shuffles the values of a linked list.
+				However, this is not necessarily an easy fix.
+		\end{enumerate}
+	} 
+\end{minipage} 
+\vfill
+
+\end{document}
+
+Here is the format for questions that include multiple parts:
+
+% Two parts 
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Three Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Four Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Five Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+% Six Parts
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{1. }a.
+\begin{minipage}[t]{11.5 cm}
+	part a \\[1ex]
+	{\slshape The answer.} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }b.
+\begin{minipage}[t]{11.5 cm}
+	part b \\[1ex]
+	{\slshape The answer}\\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }c.
+\begin{minipage}[t]{11.5 cm}
+	part c \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }d.
+\begin{minipage}[t]{11.5 cm}
+	part d \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }e.
+\begin{minipage}[t]{11.5 cm}
+	part e \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage} \\[1ex]
+\phantom{1. }f.
+\begin{minipage}[t]{11.5 cm}
+	part f \\[1ex]
+	{\slshape The answer} \\
+	{} % space for comments to be included
+\end{minipage}
+\\[2ex]
+
+\noindent X. 
+\begin{minipage}[t]{11.5 cm}
+	The question
+\end{minipage} \\[1ex]
+\phantom{3. } 
+\begin{minipage}[t]{11.5 cm}
+	{\slshape The answer.} 
+\end{minipage} 
+\\[2ex]
