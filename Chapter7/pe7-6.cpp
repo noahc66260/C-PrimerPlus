@@ -35,6 +35,11 @@ int main(void)
 
 int Fill_array(double arr[], int size)
 {
+	// Every array item is initially set to 0 so that you don't get any strange numbers from unfilled array values. 
+	for (size_t j = 0; j < size; j++)
+	{
+		arr[j] = 0;
+	}
 	cout << "You may enter up to " << size << " values." << endl;
 	cout << "Enter value number 1 (or type \"q\" when finished): ";
 	int count = 0;
