@@ -4,6 +4,7 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
+#include<string> // for getline function.
 #include"person.h"
 using std::string;
 
